@@ -8,6 +8,6 @@
 <h1><%= "Hello World!" %>
 </h1>
 <br/>
-<a href="db">Hello Servlet</a>
+<a href="webForms/patientLogin.jsp">Hello Servlet</a>
 </body>
 </html>

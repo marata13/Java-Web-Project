@@ -19,7 +19,7 @@ public class Patient extends User {
      * @param amka The amka of the patient.
      * @param appointment The appointments.
      */
-    public Patient(String username, String password, String name, String surname, String amka,boolean isLock, Appointment appointment) {
+    public Patient(String username, String password, String name, String surname, String amka, boolean isLock, Appointment appointment) {
         super(username, password, name, surname);
         this.amka = amka;
         this.appointment = appointment;
