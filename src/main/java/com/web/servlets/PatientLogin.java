@@ -48,7 +48,12 @@ public class PatientLogin extends HttpServlet {
             }
         }
         else {
-            System.out.println("Failed to login...");
+            try {
+                response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }
