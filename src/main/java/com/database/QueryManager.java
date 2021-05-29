@@ -28,11 +28,14 @@ public class QueryManager {
             PreparedStatement preparedStatement = conn.prepareStatement(
                     MessageFormat.format("SELECT username, password FROM {0} WHERE username = ?", table)
             );
-            preparedStatement.setString(1, username);
+            // Θετονται οι καταλληλες τιμες στις παραμετρους του ερωτηματος.
+            // Δεν γινεται SQL Injection.
+            preparedStatement.setString(1, username.trim());
             preparedStatement.executeQuery();
 
             resultsFromDB = preparedStatement.getResultSet();
             resultsFromDB.next();
+            // Καταχωρηση των δεδομενων σε ενα HashMap.
             credentials.put("username", resultsFromDB.getString("username"));
             credentials.put("password", resultsFromDB.getString("password"));
         }
