@@ -6,9 +6,9 @@ import com.core.system.management.Appointment;
  * This class refers to the Patients.
  */
 public class Patient extends User {
-    private final String amka;
-    final private Appointment appointment;
-    final private boolean isLock;
+    private String amka;
+    private Appointment appointment;
+    private boolean isLock;
 
     /**
      *
@@ -24,6 +24,10 @@ public class Patient extends User {
         this.amka = amka;
         this.appointment = appointment;
         this.isLock = isLock;
+    }
+
+    public Patient(){
+        super();
     }
 
     /**

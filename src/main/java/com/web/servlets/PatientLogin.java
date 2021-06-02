@@ -1,5 +1,7 @@
 package com.web.servlets;
 
+import com.core.exceptions.LoginFailure;
+import com.core.system.systemUsers.Patient;
 import com.database.Database;
 import com.database.QueryManager;
 
@@ -30,32 +32,15 @@ public class PatientLogin extends HttpServlet {
      */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
-
-        HashMap<String, String> dbCredentials;
-        dbCredentials = QueryManager.getCredentials(request.getParameter("username"), conn, "patient");
-
-        String fromUserUsername = request.getParameter("username");
-        String fromUserPassword = request.getParameter("password");
-        String fromDBUsername = dbCredentials.get("username");
-        String fromDBPassword = dbCredentials.get("password");
-
-        if (fromUserUsername.equals(fromDBUsername) && fromUserPassword.equals(fromDBPassword)) {
-            try {
-                response.sendRedirect(request.getContextPath()+"/users/patientHome.jsp");
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
+        Patient p1 = new Patient();
+        try{
+            p1.login(request.getParameter("username"), request.getParameter("password"), "patient");
+            response.sendRedirect(request.getContextPath()+"/users/patientHome.jsp");
         }
-        else {
-            try {
-                response.sendError(HttpServletResponse.SC_FORBIDDEN);
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
+        catch(LoginFailure | IOException e){
+            //toDO: write this on html
+            System.out.println("Your login has failed! Please, try again...");
         }
-
     }
 
     /**

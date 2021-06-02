@@ -1,6 +1,13 @@
 package com.core.system.systemUsers;
 
 import com.core.exceptions.LoginFailure;
+import com.database.Database;
+import com.database.QueryManager;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.Connection;
+import java.util.HashMap;
 
 /**
  * This class is related to all the actions
@@ -26,6 +33,10 @@ public abstract class User {
         this.password = password;
         this.name = name;
         this.surname = surname;
+        this.login = false;
+    }
+
+    public User(){
         this.login = false;
     }
 
@@ -92,12 +103,15 @@ public abstract class User {
      * @param password the password to connect.
      * @throws LoginFailure in case of login failure.
      */
-    public void login(String username, String password) throws LoginFailure {
-        if (username.equals(this.username) && password.equals(this.password)) {
-            login = true;
-        }
-        else {
-            throw new LoginFailure("The username or the password not match.");
+    public void login(String username, String password, String table) throws LoginFailure {
+        Connection conn;
+        conn = Database.getConnection();
+        HashMap<String, String> dbCredentials;
+        dbCredentials = QueryManager.getCredentials(username, conn, table);
+        String fromDBUsername = dbCredentials.get("username");
+        String fromDBPassword = dbCredentials.get("password");
+        if (username.equals(fromDBUsername) && password.equals(fromDBPassword)) {
+           this.login = true;
         }
     }
 
