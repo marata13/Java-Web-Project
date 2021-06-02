@@ -18,11 +18,9 @@ import java.util.HashMap;
 public class PatientLogin extends HttpServlet {
     // toDO Make that thing to work for every login page and smaller.
 
-    private Connection conn;
 
     @Override
-    public void init() {
-        conn = Database.getConnection();
+    public void init(){
     }
 
     /**
@@ -33,26 +31,23 @@ public class PatientLogin extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
         Patient p1 = new Patient();
+
+
         try{
             p1.login(request.getParameter("username"), request.getParameter("password"), "patient");
             response.sendRedirect(request.getContextPath()+"/users/patientHome.jsp");
         }
-        catch(LoginFailure | IOException e){
+        catch(LoginFailure | IOException | SQLException e){
             //toDO: write this on html
             System.out.println("Your login has failed! Please, try again...");
         }
     }
+
 
     /**
      *
      */
     @Override
     public void destroy() {
-        try {
-            conn.close();
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }

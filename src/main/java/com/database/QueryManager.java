@@ -53,4 +53,33 @@ public class QueryManager {
     public static ArrayList<String> getAppointments() {
         return null;
     }
+
+    public static HashMap<String, String> getUserDetails(String username, Connection conn, String table){
+        HashMap<String, String> details = new HashMap<>();
+        ResultSet resultsFromDB;
+
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(
+                    MessageFormat.format("SELECT * FROM {0} WHERE username = ?", table)
+            );
+            // Θετονται οι καταλληλες τιμες στις παραμετρους του ερωτηματος.
+            // Δεν γινεται SQL Injection.
+            preparedStatement.setString(1, username.trim());
+            preparedStatement.executeQuery();
+
+            resultsFromDB = preparedStatement.getResultSet();
+            resultsFromDB.next();
+            // Καταχωρηση των δεδομενων σε ενα HashMap.
+            details.put("patientAMKA", resultsFromDB.getString("patientAMKA"));
+            details.put("username", resultsFromDB.getString("username"));
+            resultsFromDB.next();
+            details.put("name", resultsFromDB.getString("name"));
+            details.put("surname", resultsFromDB.getString("surname"));
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return details;
+    }
 }

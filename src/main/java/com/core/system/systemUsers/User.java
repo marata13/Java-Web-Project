@@ -7,6 +7,7 @@ import com.database.QueryManager;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 /**
@@ -80,7 +81,9 @@ public abstract class User {
      * @return username
      */
     public String getUsername() {
-        return this.username;
+        Connection conn;
+        conn = Database.getConnection();
+        return QueryManager.getUserDetails(this.username, conn, "patient").get("username");
     }
 
     /**
@@ -103,7 +106,7 @@ public abstract class User {
      * @param password the password to connect.
      * @throws LoginFailure in case of login failure.
      */
-    public void login(String username, String password, String table) throws LoginFailure {
+    public void login(String username, String password, String table) throws LoginFailure, SQLException {
         Connection conn;
         conn = Database.getConnection();
         HashMap<String, String> dbCredentials;
@@ -113,6 +116,7 @@ public abstract class User {
         if (username.equals(fromDBUsername) && password.equals(fromDBPassword)) {
            this.login = true;
         }
+        conn.close();
     }
 
     public void logout() {
