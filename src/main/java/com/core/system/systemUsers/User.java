@@ -120,8 +120,8 @@ public abstract class User {
                 "password"
         );
 
-        String fromDBUsername = (dbCredentials.get("username") != null)? dbCredentials.get("username"):"";
-        String fromDBPassword = (dbCredentials.get("password") != null)? dbCredentials.get("password"):"";
+        String fromDBUsername = (dbCredentials.get("username") != null)? dbCredentials.get("username"):null;
+        String fromDBPassword = (dbCredentials.get("password") != null)? dbCredentials.get("password"):null;
 
         if (username.equals(fromDBUsername) && password.equals(fromDBPassword)) {
            this.login = true;
