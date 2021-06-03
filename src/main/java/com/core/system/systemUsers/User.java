@@ -42,64 +42,9 @@ public abstract class User {
         this.login = false;
     }
 
-    /**
-     * @param username the new username.
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
-    /**
-     * @param password the new Password.
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public abstract HashMap<String, String> getUserDetails (String username, String table) throws SQLException;
 
-    /**
-     * @param name the new name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @param surname the new surname.
-     */
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    /**
-     * @return name.
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     *
-     * @return username
-     */
-    public String getUsername() {
-        Connection conn;
-        conn = Database.getConnection();
-        return null;
-    }
-
-    /**
-     * @return surname.
-     */
-    public String getSurname() {
-        return this.surname;
-    }
-
-    /**
-     * @return userCounter
-     */
-    public static int getUserCounter() {
-        return User.usersCounter;
-    }
 
     /**
      *

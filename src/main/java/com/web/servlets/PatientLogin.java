@@ -32,7 +32,6 @@ public class PatientLogin extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
         Patient p1 = new Patient();
 
-
         try{
             p1.login(request.getParameter("username"), request.getParameter("password"), "patient");
             response.sendRedirect(request.getContextPath()+"/users/patientHome.jsp");

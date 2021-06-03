@@ -27,7 +27,6 @@ public class QueryManager {
         // Οριζουμε τι θα πρεπει να μπει στα κοματια του ερωτηματος που εχουν το ερωτηματικο "?".
         for (String input : userInput) {
             index = userInput.indexOf(input) + 1;
-            System.out.println(index);
             preparedStatement.setString(index, input);
         }
 

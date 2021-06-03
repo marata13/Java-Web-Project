@@ -76,7 +76,7 @@ public class Appointment {
     public void showAllAppointments(Doctor doctor) {
         for (String s : doctor.getSchedule().keySet()) {
             if(doctor.getSchedule().get(s) == null) System.out.println(s + " "); // free time
-            else System.out.println(s + " " + doctor.getSchedule().get(s).getName()); // closed.
+            //else System.out.println(s + " " + doctor.getSchedule().get(s).getName()); // closed.
         }
     }
 
@@ -86,8 +86,8 @@ public class Appointment {
      * @param time The time that the patient has closed.
      */
     public void showAppointment(Doctor doctor, String time) {
-        if(doctor.getSchedule().containsKey(time) && doctor.getSchedule().get(time) != null)  System.out.println(time + " " + doctor.getSchedule().get(time).getName());
-        else System.out.println("There is no scheduled appointment on " + time);
+        //if(doctor.getSchedule().containsKey(time) && doctor.getSchedule().get(time) != null)  System.out.println(time + " " + doctor.getSchedule().get(time).getName());
+        //else System.out.println("There is no scheduled appointment on " + time);
     }
 
     /**
@@ -125,12 +125,12 @@ public class Appointment {
      */
     public void showAppointmentsByDoctorName(String doctorName) {
         for(Doctor doctor : doctors) {
-            if(doctor.getName().equals(doctorName)) {
+           /* if(doctor.getName().equals(doctorName)) {
                 for(String s : doctor.getSchedule().keySet()) {
                     if(doctor.getSchedule().get(s) == null) System.out.println(s);
                 }
                 break;
-            }
+            }*/
         }
     }
 
@@ -143,7 +143,7 @@ public class Appointment {
         for(Doctor doctor : doctors) {
             if(doctor.getSpecialty().equals(doctorSpecialty)) {
                 for(String s : doctor.getSchedule().keySet()) {
-                    if(doctor.getSchedule().get(s) == null) System.out.println(doctor.getName() + " " + s);
+                    //if(doctor.getSchedule().get(s) == null) System.out.println(doctor.getName() + " " + s);
                 }
                 break;
             }

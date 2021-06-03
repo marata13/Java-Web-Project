@@ -1,6 +1,12 @@
 package com.core.system.systemUsers;
 
 import com.core.system.management.Appointment;
+import com.database.Database;
+import com.database.QueryManager;
+import com.database.queries.Queries;
+
+import java.sql.SQLException;
+import java.util.HashMap;
 
 /**
  * This class refers to the Patients.
@@ -28,6 +34,20 @@ public class Patient extends User {
 
     public Patient(){
         super();
+    }
+
+    @Override
+    public HashMap<String, String> getUserDetails(String username, String table) throws SQLException {
+        return QueryManager.getFromDatabase(
+                username,
+                Queries.RETRIEVE_DETAILS.query,
+                Database.getConnection(),
+                table,
+                "patientAMKA",
+                "username",
+                "name",
+                "surname"
+        );
     }
 
     /**

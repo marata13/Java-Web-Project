@@ -1,7 +1,11 @@
 package com.core.system.systemUsers;
 
 import com.core.system.management.Appointment;
+import com.database.Database;
+import com.database.QueryManager;
+import com.database.queries.Queries;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,9 +17,9 @@ import java.util.List;
  */
 public class Doctor extends User {
     private String specialty;
-    final private Appointment appointment;
-    final private HashMap<String, Patient> schedule;
-    final private List<String> times;
+    private Appointment appointment;
+    private HashMap<String, Patient> schedule;
+    private List<String> times;
 
     /**
      *
@@ -32,6 +36,24 @@ public class Doctor extends User {
         this.schedule = new HashMap<>();
         this.times = new ArrayList<>();
         this.appointment = appointment;
+    }
+    public Doctor() {
+        super();
+    }
+
+    @Override
+    public HashMap<String, String> getUserDetails(String username, String table) throws SQLException {
+        return QueryManager.getFromDatabase(
+                username,
+                Queries.RETRIEVE_DETAILS.query,
+                Database.getConnection(),
+                table,
+                "doctorAMKA",
+                "username",
+                "specialty",
+                "surname",
+                "name"
+        );
     }
 
     /**
@@ -131,4 +153,6 @@ public class Doctor extends User {
         Patient tmpPatient = schedule.get(time);
         appointment.removeAppointment(this, tmpPatient, time);
     }
+
+
 }
