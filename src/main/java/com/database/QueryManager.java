@@ -16,10 +16,11 @@ public class QueryManager {
      * @param query Το ερωτημα που προκειται να εκτελεστει.
      * @param conn Η συνδεση προς την βαση.
      * @param parameters Οι παραμετροι που θα τοποθετιθουν στο ερωτημα της SQL.
+     * @param isWrite Εαν ειναι για εγραφη στην βαση η για διαβασμα.
      * @return Το συνολο τον εποτελεσματων απο την βαση.
      * @throws SQLException SQL.
      */
-    private static ResultSet queryExecutor(String query, Connection conn, String... parameters) throws SQLException {
+    private static ResultSet queryExecutor(String query, Connection conn, boolean isWrite, String... parameters) throws SQLException {
         int index;
 
         PreparedStatement preparedStatement = conn.prepareStatement(query);
@@ -32,7 +33,7 @@ public class QueryManager {
 
         preparedStatement.executeQuery();
         // Εδω θα περιεχονται τα αποτελεσματα απο την βαση,
-        return preparedStatement.getResultSet();
+        return (isWrite)? null : preparedStatement.getResultSet();
     }
 
     /**
@@ -56,7 +57,6 @@ public class QueryManager {
         return retrievedData;
     }
 
-
     /**
      * Σε αυτη την μεθοδο τραβαμε απο την βαση δεδομενων ολα
      * τα απαραιτητα δεδομενα.
@@ -71,9 +71,14 @@ public class QueryManager {
      */
     public static HashMap<String, String> getFromDatabase(String username, String query, Connection conn, String table, String... retrieves) throws SQLException {
         ResultSet resultsFromDB;
-        resultsFromDB = QueryManager.queryExecutor(MessageFormat.format(query, table), conn, username);
+        resultsFromDB = QueryManager.queryExecutor(MessageFormat.format(query, table), conn,false, username);
 
+        assert resultsFromDB != null;
         return QueryManager.retrieveData(resultsFromDB, Arrays.asList(retrieves));
+    }
+
+    public static void saveToDatabase(String query, Connection conn, String table, String... fields) throws SQLException {
+        QueryManager.queryExecutor(MessageFormat.format(query, table), conn, true, fields);
     }
 
 }

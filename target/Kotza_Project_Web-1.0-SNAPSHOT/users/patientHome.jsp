@@ -12,11 +12,29 @@
     <title>Patient Home</title>
 </head>
 <body>
-THIS IS HOME
-<table>
-    <tr>
-        <td>username:</td><td>mitsos</td>
-    </tr>
-</table>
+    <%
+        // Εδω λαμβανουμε ολα τα σχετικα δεδομενα απο το servlet.
+        String username = (String) request.getAttribute("username");
+        String name = (String) request.getAttribute("name");
+        String surname = (String) request.getAttribute("surname");
+        String patientAMKA = (String) request.getAttribute("patientAMKA");
+    %>
+
+    THIS IS HOME
+    <table>
+
+        <tr>
+            <td>username: <%=username%></td>
+        </tr>
+        <tr>
+            <td>name: <%=name%></td>
+        </tr>
+        <tr>
+            <td>surname: <%=surname%></td>
+        </tr>
+        <tr>
+            <td>patientAMKA: <%=patientAMKA%></td>
+        </tr>
+    </table>
 </body>
 </html>

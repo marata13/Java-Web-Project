@@ -72,6 +72,7 @@ public abstract class User {
            this.login = true;
         }
         else {
+            LoginFailure.terminateConnection(conn);
             throw new LoginFailure("Login Failed...");
         }
         conn.close();
