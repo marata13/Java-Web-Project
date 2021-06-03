@@ -2,84 +2,44 @@ package com.database;
 
 import java.sql.*;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
-@SuppressWarnings("")
 public class QueryManager {
 
-    /**
-     * Σε αυτη την μεθοδο ψαχνουμε στην βαση δεδομενων για τα στοιχεια συνδεσης
-     * ενος συγκερκιμενου χρηστη και αφου τα βρουμε τα επιστρεφουμε μεσα σε μια
-     * δομη τυπου HashMap.
-     *
-     * @param username Το username με το οποιο θα παρουμε τα δεδομενα του χρηστη απο την βαση.
-     * @param conn Η συνδεση προς την βαση.
-     * @param table O πινακας στον οποιο βρισκονται τα δεδομενα.
-     * @return HashMap<String,String>
-     */
-    public static HashMap<String, String> getCredentials(String username, Connection conn, String table)  {
+    private static ResultSet queryExecutor(String query, Connection conn, String... parameters) throws SQLException {
+        int index;
 
-        HashMap<String, String> credentials = new HashMap<>();
+        PreparedStatement preparedStatement = conn.prepareStatement(query);
+        List<String> userInput = Arrays.asList(parameters);
+        // Οριζουμε τι θα πρεπει να μπει στα κοματια του ερωτηματος που εχουν το ερωτηματικο "?".
+        for (String input : userInput) {
+            index = userInput.indexOf(input) + 1;
+            System.out.println(index);
+            preparedStatement.setString(index, input);
+        }
+
+        preparedStatement.executeQuery();
+        // Εδω θα περιεχονται τα αποτελεσματα απο την βαση,
+        return preparedStatement.getResultSet();
+    }
+
+    private static HashMap<String, String> retrieveData(ResultSet fromDB, List<String> dataToRetrieve) throws SQLException {
+        HashMap<String, String> retrievedData = new HashMap<>();
+        fromDB.next();
+
+        for (String retrieve : dataToRetrieve) {
+            retrievedData.put(retrieve, fromDB.getString(retrieve));
+        }
+
+        return retrievedData;
+    }
+
+
+    public static HashMap<String, String> getFromDatabase(String username, String query, Connection conn, String table, String... retrieves) throws SQLException {
         ResultSet resultsFromDB;
+        resultsFromDB = QueryManager.queryExecutor(MessageFormat.format(query, table), conn, username);
 
-        try {
-            PreparedStatement preparedStatement = conn.prepareStatement(
-                    MessageFormat.format("SELECT username, password FROM {0} WHERE username = ?", table)
-            );
-            // Θετονται οι καταλληλες τιμες στις παραμετρους του ερωτηματος.
-            // Δεν γινεται SQL Injection.
-            preparedStatement.setString(1, username.trim());
-            preparedStatement.executeQuery();
-
-            resultsFromDB = preparedStatement.getResultSet();
-            resultsFromDB.next();
-            // Καταχωρηση των δεδομενων σε ενα HashMap.
-            credentials.put("username", resultsFromDB.getString("username"));
-            credentials.put("password", resultsFromDB.getString("password"));
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return credentials;
+        return QueryManager.retrieveData(resultsFromDB, Arrays.asList(retrieves));
     }
 
-    /**
-     *
-     * @return
-     */
-    public static ArrayList<String> getAppointments() {
-        return null;
-    }
-
-    public static HashMap<String, String> getUserDetails(String username, Connection conn, String table){
-        HashMap<String, String> details = new HashMap<>();
-        ResultSet resultsFromDB;
-
-        try {
-            PreparedStatement preparedStatement = conn.prepareStatement(
-                    MessageFormat.format("SELECT * FROM {0} WHERE username = ?", table)
-            );
-            // Θετονται οι καταλληλες τιμες στις παραμετρους του ερωτηματος.
-            // Δεν γινεται SQL Injection.
-            preparedStatement.setString(1, username.trim());
-            preparedStatement.executeQuery();
-
-            resultsFromDB = preparedStatement.getResultSet();
-            resultsFromDB.next();
-            // Καταχωρηση των δεδομενων σε ενα HashMap.
-            details.put("patientAMKA", resultsFromDB.getString("patientAMKA"));
-            details.put("username", resultsFromDB.getString("username"));
-            resultsFromDB.next();
-            details.put("name", resultsFromDB.getString("name"));
-            details.put("surname", resultsFromDB.getString("surname"));
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return details;
-    }
 }

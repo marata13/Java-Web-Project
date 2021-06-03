@@ -13,5 +13,10 @@
 </head>
 <body>
 THIS IS HOME
+<table>
+    <tr>
+        <td>username:</td><td>mitsos</td>
+    </tr>
+</table>
 </body>
 </html>

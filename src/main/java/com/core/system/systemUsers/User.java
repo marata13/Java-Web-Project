@@ -3,6 +3,7 @@ package com.core.system.systemUsers;
 import com.core.exceptions.LoginFailure;
 import com.database.Database;
 import com.database.QueryManager;
+import com.database.queries.Queries;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -83,7 +84,7 @@ public abstract class User {
     public String getUsername() {
         Connection conn;
         conn = Database.getConnection();
-        return QueryManager.getUserDetails(this.username, conn, "patient").get("username");
+        return null;
     }
 
     /**
@@ -107,14 +108,26 @@ public abstract class User {
      * @throws LoginFailure in case of login failure.
      */
     public void login(String username, String password, String table) throws LoginFailure, SQLException {
-        Connection conn;
-        conn = Database.getConnection();
         HashMap<String, String> dbCredentials;
-        dbCredentials = QueryManager.getCredentials(username, conn, table);
-        String fromDBUsername = dbCredentials.get("username");
-        String fromDBPassword = dbCredentials.get("password");
+        Connection conn = Database.getConnection();
+
+        dbCredentials = QueryManager.getFromDatabase(
+                username,
+                Queries.RETRIEVE_CREDENTIALS.query,
+                conn,
+                table,
+                "username",
+                "password"
+        );
+
+        String fromDBUsername = (dbCredentials.get("username") != null)? dbCredentials.get("username"):"";
+        String fromDBPassword = (dbCredentials.get("password") != null)? dbCredentials.get("password"):"";
+
         if (username.equals(fromDBUsername) && password.equals(fromDBPassword)) {
            this.login = true;
+        }
+        else {
+            throw new LoginFailure("Login Failed...");
         }
         conn.close();
     }
