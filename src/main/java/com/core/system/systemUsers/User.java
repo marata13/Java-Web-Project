@@ -6,6 +6,7 @@ import com.database.QueryManager;
 import com.database.queries.Queries;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -20,7 +21,6 @@ public abstract class User {
     protected String password;
     protected String name;
     protected String surname;
-    protected boolean login;
     protected static int usersCounter = 0;
 
     /**
@@ -35,11 +35,9 @@ public abstract class User {
         this.password = password;
         this.name = name;
         this.surname = surname;
-        this.login = false;
     }
 
     public User(){
-        this.login = false;
     }
 
 
@@ -52,7 +50,10 @@ public abstract class User {
      * @param password the password to connect.
      * @throws LoginFailure in case of login failure.
      */
-    public void login(String username, String password, String table) throws LoginFailure, SQLException {
+    public void login(String username,
+                      String password,
+                      String table) throws LoginFailure, SQLException {
+
         HashMap<String, String> dbCredentials = new HashMap<>();
         Connection conn = Database.getConnection();
 
@@ -68,22 +69,16 @@ public abstract class User {
         String fromDBUsername = dbCredentials.get("username");
         String fromDBPassword = dbCredentials.get("password");
 
-        if (username.equals(fromDBUsername) && password.equals(fromDBPassword)) {
-           this.login = true;
-        }
-        else {
+        if (!username.equals(fromDBUsername) && password.equals(fromDBPassword)) {
             LoginFailure.terminateConnection(conn);
             throw new LoginFailure("Login Failed...");
         }
         conn.close();
     }
 
-    public void logout() {
-        login = false;
-    }
-
-    public boolean isLoggedIn() {
-        return login;
+    public void logout(HttpSession session) {
+        session.getAttribute("username");
+        session.invalidate();
     }
 
     protected static void increaseUsers() {

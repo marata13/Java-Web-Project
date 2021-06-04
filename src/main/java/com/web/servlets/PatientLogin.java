@@ -15,10 +15,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-@WebServlet("/patientServlet")
-public class PatientServlet extends HttpServlet {
-    // toDO Make that thing to work for every login page and smaller.
-
+@WebServlet("/patientLogin")
+public class PatientLogin extends HttpServlet {
 
     @Override
     public void init(){
@@ -36,6 +34,7 @@ public class PatientServlet extends HttpServlet {
 
         try{
             patient.login(request.getParameter("username"), request.getParameter("password"), "patient");
+            request.getSession().setAttribute("username", request.getParameter("username"));
             userDetails = patient.getUserDetails(request.getParameter("username"),"patient");
             // Εδω οριζουμε τι θα προωθησουμε στο jsp.
             request.setAttribute("username", userDetails.get("username"));
@@ -43,7 +42,7 @@ public class PatientServlet extends HttpServlet {
             request.setAttribute("surname", userDetails.get("surname"));
             request.setAttribute("patientAMKA", userDetails.get("patientAMKA"));
             // Προωθουμε τα δεδομενα στο jsp.
-            getServletContext().getRequestDispatcher("/users/patientHome.jsp").forward(request, response);
+            this.getServletContext().getRequestDispatcher("/users/patientHome.jsp").forward(request, response);
         }
         catch(LoginFailure | IOException | SQLException | ServletException e){
             System.out.println("ok");
