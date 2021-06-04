@@ -30,7 +30,6 @@ public abstract class User {
      * @param surname the surname of the user.
      */
     public User(String username, String password, String name, String surname) {
-        User.increaseUsers();
         this.username = username;
         this.password = password;
         this.name = name;
@@ -79,9 +78,5 @@ public abstract class User {
     public void logout(HttpSession session) {
         session.getAttribute("username");
         session.invalidate();
-    }
-
-    protected static void increaseUsers() {
-        User.usersCounter++;
     }
 }
