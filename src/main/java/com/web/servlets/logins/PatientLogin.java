@@ -1,4 +1,4 @@
-package com.web.servlets;
+package com.web.servlets.logins;
 
 import com.core.exceptions.LoginFailure;
 import com.core.system.systemUsers.Patient;
