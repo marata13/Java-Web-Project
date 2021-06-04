@@ -54,12 +54,11 @@ public abstract class User {
                       String table) throws LoginFailure, SQLException {
 
         HashMap<String, String> dbCredentials = new HashMap<>();
-        Connection conn = Database.getConnection();
 
         dbCredentials = QueryManager.getFromDatabase(
                 username,
                 Queries.RETRIEVE_CREDENTIALS.query,
-                conn,
+                Database.getConnection(),
                 table,
                 "username",
                 "password"
@@ -69,10 +68,8 @@ public abstract class User {
         String fromDBPassword = dbCredentials.get("password");
 
         if (!username.equals(fromDBUsername) && password.equals(fromDBPassword)) {
-            LoginFailure.terminateConnection(conn);
             throw new LoginFailure("Login Failed...");
         }
-        conn.close();
     }
 
     public void logout(HttpSession session) {
