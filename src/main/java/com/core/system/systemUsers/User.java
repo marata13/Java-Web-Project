@@ -42,7 +42,6 @@ public abstract class User {
 
     public abstract HashMap<String, String> getUserDetails (String username, String table) throws SQLException;
 
-
     /**
      *
      * @param username the username to connect.
