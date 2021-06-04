@@ -48,12 +48,4 @@ public class PatientLogin extends HttpServlet {
             System.out.println("ok");
         }
     }
-
-
-    /**
-     *
-     */
-    @Override
-    public void destroy() {
-    }
 }
