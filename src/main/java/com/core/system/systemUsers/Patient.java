@@ -83,7 +83,10 @@ public class Patient extends User {
     /**
      * display the appointments history.
      */
+   /*
+   *old unused method that changed
+
     public void showAppointmentsHistory(){
         if (!isLock) appointment.showPatientHistory(this);
-    }
+    }*/
 }

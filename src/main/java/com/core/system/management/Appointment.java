@@ -2,10 +2,20 @@ package com.core.system.management;
 
 import com.core.system.systemUsers.Doctor;
 import com.core.system.systemUsers.Patient;
+import com.database.Database;
+import com.database.queries.Queries;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+
+import static com.database.QueryManager.getPreviousAppointments;
 
 /**
  * This class is responsible for all the
@@ -112,10 +122,38 @@ public class Appointment {
         if(!find) System.out.println("Oops! You forgot to schedule an appointment! Don't hesitate to contact your doctor so we can see you again!");
     }
 
-    //show patient's history
-    public void showPatientHistory(Patient patient) {
-        //toDO: Where should we save the patient's past appointments?
-        // Hint: When deleting an appointment, don't forget to delete it from the patient's history as well.
+    /**
+     * Αυτή η μέθοδος παίρνει το ResultSet με τα ραντεβού του ασθενή
+     * και παράγει ένα html table όπου προβάλει τα αποτελέσματα
+     * για χρήση σε jsp σελίδες
+     * @param username το username για τον οποίο θέλουμε να δούμε τα ραντεβού
+     * @param out JspWriter για να τυπώσουμε τα αποτελέσματα σε μια σελίδα jsp
+     * @throws SQLException
+     * @throws IOException
+     */
+    public static void showPreviousAppointments(String username, javax.servlet.jsp.JspWriter out) throws SQLException, IOException {
+        Connection conn = Database.getConnection();
+        ResultSet rs= getPreviousAppointments(username,conn, Queries.PREVIOUS_APPOINTMENTS.query);
+
+        ResultSetMetaData rsMeta = rs.getMetaData();
+        int columnCount = rsMeta.getColumnCount();
+        out.println("<TABLE BORDER=1>");
+        out.println("<TR>");
+        for(int i=1;i<=columnCount;i++) {
+            out.print("<TH>"+rsMeta.getColumnName(i));
+        }
+        out.println();
+
+
+        while(rs.next()) {
+            out.println("<TR>");
+            for(int i=1;i<=columnCount;i++) {
+                out.print("<TD>"+rs.getString(i));
+            }
+            out.println();
+        }
+        out.println();
+        conn.close();
     }
 
     /**

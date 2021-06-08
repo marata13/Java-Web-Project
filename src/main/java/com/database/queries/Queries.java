@@ -6,7 +6,7 @@ public enum Queries {
 
     RETRIEVE_DETAILS("SELECT * FROM {0} WHERE username = ?"),
 
-    RETRIEVE_APPOINTMENTS("SELECT * FROM appointments WHERE {0} = ?");
+    PREVIOUS_APPOINTMENTS("select date,time,doctor_name,doctor_surname,doctor_specialty from appointment where date< ? and patient_username= ? order by date");
 
     public final String query;
     Queries(String query) {

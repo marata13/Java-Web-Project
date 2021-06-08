@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/DBKotza</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="DB_Kotza@localhost" uuid="e3079691-9422-4a3c-a1af-6e9eefed9c36">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/DB_Kotza</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

@@ -1,7 +1,10 @@
 package com.database;
 
+
 import java.sql.*;
+import java.sql.Date;
 import java.text.MessageFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 public class QueryManager {
@@ -80,5 +83,31 @@ public class QueryManager {
     public static void saveToDatabase(String query, Connection conn, String table, String... fields) throws SQLException {
         QueryManager.queryExecutor(MessageFormat.format(query, table), conn, true, fields);
     }
+
+    /**
+    *Βοηθητική μέθοδος για να πάρουμε την σημερινή ημερομηνία σε μορφή sql
+     */
+    public static Date currentDate (LocalDate dateToConvert) {
+        return java.sql.Date.valueOf(dateToConvert);
+    }
+
+
+    /**
+     *Με αυτή την μέθοδο καλούμε όλα τα ραντεβού ενός ασθενή που ήταν προγραμματισμένα πριν την
+     *     * σημετινή ημερομηνία
+     * @param username το username του ασθενή για το οποίο θέλουμε να δούμε τα ραντεβού
+     * @param conn η σύνδεση προσ την βάση δεδομένων
+     * @param query το ερώτημα που εκτελείται στην βάση
+     * @return επιστρέφει ένα resultSet που χρησιμοποιείται στην μέθοδο showPreviousAppointments
+     * @throws SQLException
+     */
+    public static ResultSet getPreviousAppointments(String username,  Connection conn,String query) throws SQLException {
+        PreparedStatement st =conn.prepareStatement(query);
+
+        st.setDate(1, currentDate(java.time.LocalDate.now()));
+        st.setString(2, username);
+        return st.executeQuery();
+    }
+
 
 }
