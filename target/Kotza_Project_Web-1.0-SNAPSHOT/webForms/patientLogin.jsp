@@ -5,7 +5,7 @@
     <title>Patient Login</title>
 </head>
 <body>
-    <form action="../patientServlet" method="post">
+    <form action="../patientLogin" method="post">
         Enter your username: <input type="text" name="username">
         Enter your password: <input type="password" name="password">
         <input type="submit">

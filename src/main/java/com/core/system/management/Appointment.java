@@ -57,7 +57,7 @@ public class Appointment {
      * @param time What time would the appointment be.
      */
     public void removeAppointment(Doctor doctor, Patient patient, String time) {
-        if(doctor.isLoggedIn()){
+        /*if(doctor.isLoggedIn()){
             for(HashMap<String, Patient> Schedule : appointments){
                 if(Schedule.containsValue(patient)) {
                     for (String s : Schedule.keySet())  {
@@ -76,7 +76,7 @@ public class Appointment {
                     }
                 }
             }
-        }
+        }*/
     }
 
     /**

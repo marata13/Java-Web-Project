@@ -23,7 +23,10 @@ public class QueryManager {
      * @return Το συνολο τον εποτελεσματων απο την βαση.
      * @throws SQLException SQL.
      */
-    private static ResultSet queryExecutor(String query, Connection conn, boolean isWrite, String... parameters) throws SQLException {
+    private static ResultSet queryExecutor(String query,
+                                           Connection conn,
+                                           boolean isWrite,
+                                           String... parameters) throws SQLException {
         int index;
 
         PreparedStatement preparedStatement = conn.prepareStatement(query);
@@ -49,7 +52,9 @@ public class QueryManager {
      * @return Το HashMap με τα δεδομενα.
      * @throws SQLException SQL
      */
-    private static HashMap<String, String> retrieveData(ResultSet fromDB, List<String> dataToRetrieve) throws SQLException {
+    private static HashMap<String, String> retrieveData(ResultSet fromDB,
+                                                        List<String> dataToRetrieve) throws SQLException {
+
         HashMap<String, String> retrievedData = new HashMap<>();
         fromDB.next();
 
@@ -72,7 +77,11 @@ public class QueryManager {
      * @return Ενα HashMap<String,String> το οποιο περιεχει τις πληροφοριες που ζητηθηκαν.
      * @throws SQLException Αφου εμπλεκουμε SQL ερωτηματα.
      */
-    public static HashMap<String, String> getFromDatabase(String username, String query, Connection conn, String table, String... retrieves) throws SQLException {
+    public static HashMap<String, String> getFromDatabase(String username,
+                                                          String query,
+                                                          Connection conn,
+                                                          String table,
+                                                          String... retrieves) throws SQLException {
         ResultSet resultsFromDB;
         resultsFromDB = QueryManager.queryExecutor(MessageFormat.format(query, table), conn,false, username);
 
@@ -80,7 +89,11 @@ public class QueryManager {
         return QueryManager.retrieveData(resultsFromDB, Arrays.asList(retrieves));
     }
 
-    public static void saveToDatabase(String query, Connection conn, String table, String... fields) throws SQLException {
+    public static void saveToDatabase(String query,
+                                      Connection conn,
+                                      String table,
+                                      String... fields) throws SQLException {
+
         QueryManager.queryExecutor(MessageFormat.format(query, table), conn, true, fields);
     }
 

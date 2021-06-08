@@ -6,6 +6,7 @@ import com.database.QueryManager;
 import com.database.queries.Queries;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -20,7 +21,6 @@ public abstract class User {
     protected String password;
     protected String name;
     protected String surname;
-    protected boolean login;
     protected static int usersCounter = 0;
 
     /**
@@ -30,21 +30,17 @@ public abstract class User {
      * @param surname the surname of the user.
      */
     public User(String username, String password, String name, String surname) {
-        User.increaseUsers();
         this.username = username;
         this.password = password;
         this.name = name;
         this.surname = surname;
-        this.login = false;
     }
 
     public User(){
-        this.login = false;
     }
 
 
     public abstract HashMap<String, String> getUserDetails (String username, String table) throws SQLException;
-
 
     /**
      *
@@ -52,14 +48,16 @@ public abstract class User {
      * @param password the password to connect.
      * @throws LoginFailure in case of login failure.
      */
-    public void login(String username, String password, String table) throws LoginFailure, SQLException {
+    public void login(String username,
+                      String password,
+                      String table) throws LoginFailure, SQLException {
+
         HashMap<String, String> dbCredentials = new HashMap<>();
-        Connection conn = Database.getConnection();
 
         dbCredentials = QueryManager.getFromDatabase(
                 username,
                 Queries.RETRIEVE_CREDENTIALS.query,
-                conn,
+                Database.getConnection(),
                 table,
                 "username",
                 "password"
@@ -68,25 +66,13 @@ public abstract class User {
         String fromDBUsername = dbCredentials.get("username");
         String fromDBPassword = dbCredentials.get("password");
 
-        if (username.equals(fromDBUsername) && password.equals(fromDBPassword)) {
-           this.login = true;
-        }
-        else {
-            LoginFailure.terminateConnection(conn);
+        if (!username.equals(fromDBUsername) && password.equals(fromDBPassword)) {
             throw new LoginFailure("Login Failed...");
         }
-        conn.close();
     }
 
-    public void logout() {
-        login = false;
-    }
-
-    public boolean isLoggedIn() {
-        return login;
-    }
-
-    protected static void increaseUsers() {
-        User.usersCounter++;
+    public void logout(HttpSession session) {
+        session.getAttribute("username");
+        session.invalidate();
     }
 }
