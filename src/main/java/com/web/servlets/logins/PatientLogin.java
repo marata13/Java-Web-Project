@@ -14,12 +14,12 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
-
+    
 @WebServlet("/patientLogin")
 public class PatientLogin extends HttpServlet {
 
     @Override
-    public void init(){
+    public void init() {
     }
 
     /**
@@ -32,7 +32,7 @@ public class PatientLogin extends HttpServlet {
         Patient patient = new Patient();
         HashMap<String, String> userDetails;
 
-        try{
+        try {
             patient.login(request.getParameter("username"), request.getParameter("password"), "patient");
             request.getSession().setAttribute("username", request.getParameter("username"));
             userDetails = patient.getUserDetails(request.getParameter("username"),"patient");
