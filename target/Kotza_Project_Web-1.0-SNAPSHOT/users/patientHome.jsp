@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.sql.SQLException" %><%--
   Created by IntelliJ IDEA.
   User: rounnus
   Date: 5/29/21
@@ -36,5 +36,10 @@
             <td>patientAMKA: <%=patientAMKA%></td>
         </tr>
     </table>
+    <% try {
+        com.core.system.management.Appointment.showPreviousAppointments(username, out);
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } %>
 </body>
 </html>
