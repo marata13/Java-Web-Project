@@ -66,7 +66,7 @@ public abstract class User {
         String fromDBUsername = dbCredentials.get("username");
         String fromDBPassword = dbCredentials.get("password");
 
-        if (!username.equals(fromDBUsername) && password.equals(fromDBPassword)) {
+        if (!(username.equals(fromDBUsername) && password.equals(fromDBPassword))) {
             throw new LoginFailure("Login Failed...");
         }
     }
