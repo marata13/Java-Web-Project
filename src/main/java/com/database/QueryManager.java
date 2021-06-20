@@ -4,7 +4,10 @@ package com.database;
 import java.sql.*;
 import java.sql.Date;
 import java.text.MessageFormat;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 public class QueryManager {
@@ -12,7 +15,7 @@ public class QueryManager {
     /**
      * Αυτη η βοηθητικη μεθοδος μας επιτρεπει να εκτελουμε
      * αιτηματα προς την βαση, οτι αιτημα και να δωθει
-     * στην παραμετρο, θα το εκτελεσει. Αυτο αρκει να
+     * στην παραμετρο, θα το εκ`τελεσει. Αυτο αρκει να
      * εχουμε δωσει το σωστο Connection και τις σωστες
      * παραμετρους.
      *
@@ -104,6 +107,23 @@ public class QueryManager {
         return java.sql.Date.valueOf(dateToConvert);
     }
 
+    /**
+     * @Source https://stackoverflow.com/questions/2937086/how-to-get-the-first-day-of-the-current-week-and-month/2938209
+    * Βοηθητική Μέθοδος για να πάρουμε την πρώτη μέρα της τρέχουσας εβδομάδας
+     * */
+    public static LocalDate startOfWeek(int week) {
+        return LocalDate.now()
+                .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).plusDays(week);
+    }
+    //
+    public static LocalDate endOfWeek() {
+        return LocalDate.now()
+                .with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+    }
+
+   public static String dateStr(int add){
+        return endOfWeek().plusDays(add).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+   }
 
     /**
      *Με αυτή την μέθοδο καλούμε όλα τα ραντεβού ενός ασθενή που ήταν προγραμματισμένα πριν την
@@ -122,5 +142,20 @@ public class QueryManager {
         return st.executeQuery();
     }
 
+    public static ResultSet getDoctorAppointments(String username,  LocalDate date, Connection conn, String query) throws SQLException {
+        PreparedStatement st =conn.prepareStatement(query);
 
+        st.setDate(1, currentDate(date));
+        st.setString(2, username);
+        return st.executeQuery();
+    }
+
+    public static ResultSet getSpecificDoctorAppointments(String username, String name,  String surname, Connection conn, String query) throws SQLException {
+        PreparedStatement st =conn.prepareStatement(query);
+
+        st.setString(1, name);
+        st.setString(2, surname);
+        st.setString(3, username);
+        return st.executeQuery();
+    }
 }

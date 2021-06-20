@@ -11,11 +11,12 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import static com.database.QueryManager.getPreviousAppointments;
+import static com.database.QueryManager.*;
 
 /**
  * This class is responsible for all the
@@ -80,14 +81,70 @@ public class Appointment {
     }
 
     /**
-     * In this method we display all appointments of a specific doctor
-     * @param doctor The doctor we are interested in learning his program.
+     * In this method we display all appointments of a specific doctor for a specific day
+     * @param doctorAMKA The AMKA of the doctor we are interested in learning his program.
+     * @param date The date on which the doctor wants to see his program.
      */
-    public void showAllAppointments(Doctor doctor) {
-        for (String s : doctor.getSchedule().keySet()) {
-            if(doctor.getSchedule().get(s) == null) System.out.println(s + " "); // free time
+    public static void showAllAppointments(String doctorAMKA,  LocalDate date, javax.servlet.jsp.JspWriter out) throws SQLException, IOException {
+
+        //for (String s : doctor.getSchedule().keySet()) {
+            //if(doctor.getSchedule().get(s) == null) System.out.println(s + " "); // free time
             //else System.out.println(s + " " + doctor.getSchedule().get(s).getName()); // closed.
+       //}
+        Connection conn = Database.getConnection();
+        ResultSet rs= getDoctorAppointments(doctorAMKA, date, conn, Queries.DOCTOR_APPOINTMENTS.query);
+
+        ResultSetMetaData rsMeta = rs.getMetaData();
+        int columnCount = rsMeta.getColumnCount();
+        out.println("<TABLE BORDER=1>");
+        out.println("<TR>");
+        for(int i=1;i<=columnCount;i++) {
+            out.print("<TH>"+rsMeta.getColumnName(i));
         }
+        out.println();
+
+
+        while(rs.next()) {
+            out.println("<TR>");
+            for(int i=1;i<=columnCount;i++) {
+                out.print("<TD>"+rs.getString(i));
+            }
+            out.println();
+        }
+        out.println();
+        conn.close();
+    }
+
+    /**
+     * This method finds a specific doctor appointment.
+     * @param name The patient's name.
+     * @param surname The patient's surname.
+     */
+    public static void showAppointmentDoctorSide(String doctorAMKA, String name, String surname, javax.servlet.jsp.JspWriter out) throws SQLException, IOException {
+        Connection conn = Database.getConnection();
+        ResultSet rs= getSpecificDoctorAppointments(doctorAMKA, name, surname, conn, Queries.SPECIFIC_DOCTOR_APPOINTMENTS.query);
+
+        ResultSetMetaData rsMeta = rs.getMetaData();
+        int columnCount = rsMeta.getColumnCount();
+        out.println("<TABLE BORDER=1>");
+        out.println("<TR>");
+        for(int i=1;i<=columnCount;i++) {
+            out.print("<TH>"+rsMeta.getColumnName(i));
+        }
+        out.println();
+
+
+        while(rs.next()) {
+            out.println("<TR>");
+            for(int i=1;i<=columnCount;i++) {
+                out.print("<TD>"+rs.getString(i));
+            }
+            out.println();
+        }
+        out.println();
+        conn.close();
+        //if(doctor.getSchedule().containsKey(time) && doctor.getSchedule().get(time) != null)  System.out.println(time + " " + doctor.getSchedule().get(time).getName());
+        //else System.out.println("There is no scheduled appointment on " + time);
     }
 
     /**
@@ -95,7 +152,7 @@ public class Appointment {
      * @param doctor The doctor we are interested in.
      * @param time The time that the patient has closed.
      */
-    public void showAppointment(Doctor doctor, String time) {
+    public static void showAppointmentPatientSide(Doctor doctor, String time) {
         //if(doctor.getSchedule().containsKey(time) && doctor.getSchedule().get(time) != null)  System.out.println(time + " " + doctor.getSchedule().get(time).getName());
         //else System.out.println("There is no scheduled appointment on " + time);
     }

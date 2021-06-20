@@ -1,3 +1,4 @@
+<%@ page import="static com.database.QueryManager.startOfWeek" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -12,6 +13,7 @@
 <a href="webForms/patientLogin.jsp">Login as Patient</a>
 <a href="webForms/DoctorLogin.jsp">Login as Doctor</a>
 <a href="webForms/AdminLogin.jsp">Login as Admin</a>
-<a href="adminLogin">Test</a>
+<br>
+<%  out.print(startOfWeek()); %>
 </body>
 </html>

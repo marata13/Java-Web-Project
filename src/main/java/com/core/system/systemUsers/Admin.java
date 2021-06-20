@@ -17,6 +17,8 @@ public class Admin extends User {
                 this.doctors = new ArrayList<>();
         }
 
+        public Admin(){}
+
         @Override
         public HashMap<String, String> getUserDetails(String username, String table) throws SQLException {
                 return QueryManager.getFromDatabase(
