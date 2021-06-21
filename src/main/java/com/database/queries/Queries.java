@@ -8,9 +8,12 @@ public enum Queries {
 
     PREVIOUS_APPOINTMENTS("select date,time,doctor_name,doctor_surname,doctor_specialty from appointment where date< ? and patient_username= ? order by date"),
 
-    DOCTOR_APPOINTMENTS("select date,time,patient_name,patient_surname from appointment where date= ? and doctorAMKA= ? order by time"),
+    DOCTOR_APPOINTMENTS("select date,time,patient_name,patient_surname from appointment where date= ? and doctor_amka= ? order by time"),
 
-    SPECIFIC_DOCTOR_APPOINTMENTS("select date,time,patient_name,patient_surname from appointment where patient_name= ? and patient_surname=? and doctorAMKA= ? order by date");
+    SPECIFIC_DOCTOR_APPOINTMENTS("select date,time,patient_name,patient_surname from appointment where patient_name= ? and patient_surname=? and doctor_amka= ? order by date"),
+
+    SAVE_PATIENT("INSERT INTO patient(patient_amka,username,password,name,surname) VALUES (?, ?, ?, ?, ?);");
+
 
     public final String query;
 

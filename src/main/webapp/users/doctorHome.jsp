@@ -22,7 +22,7 @@
     String name = (String) request.getAttribute("name");
     String surname = (String) request.getAttribute("surname");
     String specialty = (String) request.getAttribute("specialty");
-    String doctorAMKA = (String) request.getAttribute("doctorAMKA");
+    String doctorAMKA = (String) request.getAttribute("doctor_amka");
 %>
 
 THIS IS HOME

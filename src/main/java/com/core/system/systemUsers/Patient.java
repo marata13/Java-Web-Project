@@ -43,10 +43,23 @@ public class Patient extends User {
                 Queries.RETRIEVE_DETAILS.query,
                 Database.getConnection(),
                 table,
-                "patientAMKA",
+                "patient_amka",
                 "username",
                 "name",
                 "surname"
+        );
+    }
+
+    public void Testing(String table) throws SQLException {
+        QueryManager.saveToDatabase(
+                Queries.SAVE_PATIENT.query,
+                Database.getConnection(),
+                table,
+                012312,
+                "AAAAAA",
+                "AAA",
+                "A",
+                "aaaa"
         );
     }
 

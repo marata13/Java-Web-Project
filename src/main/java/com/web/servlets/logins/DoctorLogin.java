@@ -41,12 +41,12 @@ public class DoctorLogin extends HttpServlet {
             request.setAttribute("name", userDetails.get("name"));
             request.setAttribute("surname", userDetails.get("surname"));
             request.setAttribute("specialty", userDetails.get("specialty"));
-            request.setAttribute("doctorAMKA", userDetails.get("doctorAMKA"));
+            request.setAttribute("doctor_amka", userDetails.get("doctor_amka"));
             // Προωθουμε τα δεδομενα στο jsp.
             this.getServletContext().getRequestDispatcher("/users/doctorHome.jsp").forward(request, response);
         }
         catch(LoginFailure | IOException | SQLException | ServletException e){
-            System.out.println("ok");
+            // do something.
         }
     }
 }

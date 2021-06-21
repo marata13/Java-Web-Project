@@ -48,7 +48,7 @@ public class Doctor extends User {
                 Queries.RETRIEVE_DETAILS.query,
                 Database.getConnection(),
                 table,
-                "doctorAMKA",
+                "doctor_amka",
                 "username",
                 "specialty",
                 "surname",

@@ -15,7 +15,7 @@
 <%
     // Εδω λαμβανουμε ολα τα σχετικα δεδομενα απο το servlet.
     String username = (String) request.getAttribute("username");
-    String AdminID = (String) request.getAttribute("ADMIN_userid");
+    String AdminID = (String) request.getAttribute("admin_userid");
 %>
 
 THIS IS HOME

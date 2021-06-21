@@ -26,7 +26,8 @@ public class Admin extends User {
                         Queries.RETRIEVE_DETAILS.query,
                         Database.getConnection(),
                         table,
-                        "username"
+                        "username",
+                        "admin_userid"
                 );
         }
 

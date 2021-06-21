@@ -1,6 +1,5 @@
 package com.database;
 
-
 import java.sql.*;
 import java.sql.Date;
 import java.text.MessageFormat;
@@ -29,15 +28,17 @@ public class QueryManager {
     private static ResultSet queryExecutor(String query,
                                            Connection conn,
                                            boolean isWrite,
-                                           String... parameters) throws SQLException {
+                                           Object... parameters) throws SQLException {
         int index;
 
         PreparedStatement preparedStatement = conn.prepareStatement(query);
-        List<String> userInput = Arrays.asList(parameters);
+        List<Object> userInput = Arrays.asList(parameters);
         // Οριζουμε τι θα πρεπει να μπει στα κοματια του ερωτηματος που εχουν το ερωτηματικο "?".
-        for (String input : userInput) {
+        for (Object input : userInput) {
             index = userInput.indexOf(input) + 1;
-            preparedStatement.setString(index, input);
+            if (input instanceof String) preparedStatement.setString(index, (String) input);
+            else if (input instanceof Integer) preparedStatement.setInt(index, (Integer) input);
+            else if (input instanceof Date) preparedStatement.setDate(index, (Date) input);
         }
 
         preparedStatement.executeQuery();
@@ -56,13 +57,13 @@ public class QueryManager {
      * @throws SQLException SQL
      */
     private static HashMap<String, String> retrieveData(ResultSet fromDB,
-                                                        List<String> dataToRetrieve) throws SQLException {
+                                                        List<Object> dataToRetrieve) throws SQLException {
 
         HashMap<String, String> retrievedData = new HashMap<>();
         fromDB.next();
 
-        for (String retrieve : dataToRetrieve) {
-            retrievedData.put(retrieve, fromDB.getString(retrieve));
+        for (Object retrieve : dataToRetrieve) {
+            retrievedData.put((String) retrieve, fromDB.getString((String) retrieve));
         }
 
         return retrievedData;
@@ -84,7 +85,7 @@ public class QueryManager {
                                                           String query,
                                                           Connection conn,
                                                           String table,
-                                                          String... retrieves) throws SQLException {
+                                                          Object... retrieves) throws SQLException {
         ResultSet resultsFromDB;
         resultsFromDB = QueryManager.queryExecutor(MessageFormat.format(query, table), conn,false, username);
 
@@ -95,7 +96,7 @@ public class QueryManager {
     public static void saveToDatabase(String query,
                                       Connection conn,
                                       String table,
-                                      String... fields) throws SQLException {
+                                      Object... fields) throws SQLException {
 
         QueryManager.queryExecutor(MessageFormat.format(query, table), conn, true, fields);
     }
@@ -135,7 +136,7 @@ public class QueryManager {
      * @throws SQLException
      */
     public static ResultSet getPreviousAppointments(String username,  Connection conn,String query) throws SQLException {
-        PreparedStatement st =conn.prepareStatement(query);
+        PreparedStatement st = conn.prepareStatement(query);
 
         st.setDate(1, currentDate(java.time.LocalDate.now()));
         st.setString(2, username);
@@ -143,7 +144,7 @@ public class QueryManager {
     }
 
     public static ResultSet getDoctorAppointments(String username,  LocalDate date, Connection conn, String query) throws SQLException {
-        PreparedStatement st =conn.prepareStatement(query);
+        PreparedStatement st = conn.prepareStatement(query);
 
         st.setDate(1, currentDate(date));
         st.setString(2, username);
@@ -151,7 +152,7 @@ public class QueryManager {
     }
 
     public static ResultSet getSpecificDoctorAppointments(String username, String name,  String surname, Connection conn, String query) throws SQLException {
-        PreparedStatement st =conn.prepareStatement(query);
+        PreparedStatement st = conn.prepareStatement(query);
 
         st.setString(1, name);
         st.setString(2, surname);

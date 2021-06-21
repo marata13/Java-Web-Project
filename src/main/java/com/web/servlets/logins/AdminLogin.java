@@ -38,12 +38,12 @@ public class AdminLogin extends HttpServlet {
             // Εδω οριζουμε τι θα προωθησουμε στο jsp.
             request.setAttribute("username", userDetails.get("username"));
             request.setAttribute("name", userDetails.get("name"));
-            request.setAttribute("ADMIN_userid", userDetails.get("ADMIN_userid"));
+            request.setAttribute("admin_userid", userDetails.get("admin_userid"));
             // Προωθουμε τα δεδομενα στο jsp.
             this.getServletContext().getRequestDispatcher("/users/adminHome.jsp").forward(request, response);
         }
         catch(LoginFailure | IOException | SQLException | ServletException e){
-            System.out.println("ok");
+            // do something.
         }
     }
 }

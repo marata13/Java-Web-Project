@@ -11,9 +11,9 @@
 </h1>
 <br/>
 <a href="webForms/patientLogin.jsp">Login as Patient</a>
-<a href="webForms/DoctorLogin.jsp">Login as Doctor</a>
-<a href="webForms/AdminLogin.jsp">Login as Admin</a>
+<a href="webForms/doctorLogin.jsp">Login as Doctor</a>
+<a href="webForms/adminLogin.jsp">Login as Admin</a>
 <br>
-<%  out.print(startOfWeek()); %>
+<%//  out.print(startOfWeek()); %>
 </body>
 </html>
