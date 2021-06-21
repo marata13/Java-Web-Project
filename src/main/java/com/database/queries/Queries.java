@@ -10,9 +10,7 @@ public enum Queries {
 
     DOCTOR_APPOINTMENTS("select date,time,patient_name,patient_surname from appointment where date= ? and doctor_amka= ? order by time"),
 
-    SPECIFIC_DOCTOR_APPOINTMENTS("select date,time,patient_name,patient_surname from appointment where patient_name= ? and patient_surname=? and doctor_amka= ? order by date"),
-
-    SAVE_PATIENT("INSERT INTO patient(patient_amka,username,password,name,surname) VALUES (?, ?, ?, ?, ?);");
+    SPECIFIC_DOCTOR_APPOINTMENTS("select date,time,patient_name,patient_surname from appointment where patient_name= ? and patient_surname=? and doctor_amka= ? order by date");
 
 
     public final String query;

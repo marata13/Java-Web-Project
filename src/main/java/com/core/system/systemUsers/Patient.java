@@ -50,19 +50,6 @@ public class Patient extends User {
         );
     }
 
-    public void Testing(String table) throws SQLException {
-        QueryManager.saveToDatabase(
-                Queries.SAVE_PATIENT.query,
-                Database.getConnection(),
-                table,
-                012312,
-                "AAAAAA",
-                "AAA",
-                "A",
-                "aaaa"
-        );
-    }
-
     /**
      * @return The amka.
      */
