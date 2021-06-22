@@ -136,23 +136,6 @@ public class Doctor extends User {
         times.clear();
     }
 
-    /*
-     * display doctor's program.
-     */
-    /*this method is called in doctorHome.jsp
-    public void program() {
-        appointment.showAllAppointments(this);
-    }*/
-
-    /*
-     * Display a specific appointment.
-     * @param time The time of the appointment.
-     */
-    /*this method is replaced by showAllAppointments
-    public void searchAppointment(String time) {
-        appointment.showAppointment(this, time);
-    }*/
-
 
     public void removeAppointment(String time) {
         if (schedule.get(time) == null) return;

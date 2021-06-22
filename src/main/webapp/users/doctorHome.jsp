@@ -45,7 +45,7 @@ THIS IS HOME
         <td>doctorAMKA: <%=doctorAMKA%></td>
     </tr>
 </table>
-Ημερήσιο Πρόγραμμα:
+Choose a day to see its schedule:
 <!-- εδώ θα μπει ένα ημερολόγιο, όπου ο γιατρός θα μπορεί να επιλέγει μια από τις επόμενες 30 ημέρες -->
 <% try {
     LocalDate date = java.time.LocalDate.of(2020, 7, 20);
@@ -53,14 +53,14 @@ THIS IS HOME
 } catch (SQLException e) {
     e.printStackTrace();
 } %>
-Εβδομαδιαίο Πρόγραμμα:
+Choose a week to see its schedule:
 <form action="/doctorHome">
 <select name="program">
-    <option value=<% startOfWeek(0);%>><%out.print(startOfWeek(0));%> εώς <%out.print(dateStr(0));%></option>
-    <option value=<% startOfWeek(7);%>><%out.print(startOfWeek(7).getDayOfMonth());%> εώς <%out.print(dateStr(7));%></option>
-    <option value=<% startOfWeek(14);%>><%out.print(startOfWeek(14).getDayOfMonth());%> εώς <%out.print(dateStr(14));%></option>
-    <option value=<% startOfWeek(21);%>><%out.print(startOfWeek(21).getDayOfMonth());%> εώς <%out.print(dateStr(21));%></option>
-    <option value=<% startOfWeek(28);%>><%out.print(startOfWeek(28).getDayOfMonth());%> εώς <%out.print(dateStr(28));%></option>
+    <option value=<% startOfWeek(0);%>><%out.print(startOfWeek(0));%> εώς <%out.print(endOfWeek(0));%></option>
+    <option value=<% startOfWeek(7);%>><%out.print(startOfWeek(7).getDayOfMonth());%> εώς <%out.print(endOfWeek(7));%></option>
+    <option value=<% startOfWeek(14);%>><%out.print(startOfWeek(14).getDayOfMonth());%> εώς <%out.print(endOfWeek(14));%></option>
+    <option value=<% startOfWeek(21);%>><%out.print(startOfWeek(21).getDayOfMonth());%> εώς <%out.print(endOfWeek(21));%></option>
+    <option value=<% startOfWeek(28);%>><%out.print(startOfWeek(28).getDayOfMonth());%> εώς <%out.print(endOfWeek(28));%></option>
 </select>
     <br><br>
     <input type="submit" value="Submit">

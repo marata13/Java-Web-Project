@@ -2,7 +2,8 @@
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="static com.database.QueryManager.startOfWeek" %>
 <%@ page import="static com.database.QueryManager.endOfWeek" %>
-<%@ page import="static com.database.QueryManager.*" %><%--
+<%@ page import="static com.database.QueryManager.*" %>
+<%@ page import="java.time.format.DateTimeFormatter" %><%--
   Created by IntelliJ IDEA.
   User: rounnus
   Date: 5/29/21
@@ -22,7 +23,7 @@
     String name = (String) request.getAttribute("name");
     String surname = (String) request.getAttribute("surname");
     String specialty = (String) request.getAttribute("specialty");
-    String doctorAMKA = (String) request.getAttribute("doctorAMKA");
+    String doctorAMKA = (String) request.getAttribute("doctor_amka");
 %>
 
 THIS IS HOME
@@ -48,39 +49,37 @@ THIS IS HOME
 <!-- εδώ θα μπει ένα ημερολόγιο, όπου ο γιατρός θα μπορεί να επιλέγει μια από τις επόμενες 30 ημέρες -->
 <% try {
     LocalDate date = java.time.LocalDate.of(2020, 7, 20);
-    com.core.system.management.Appointment.showAllAppointments(username, date, out);
+    com.core.system.management.Appointment.showAppointmentsPerDay(doctorAMKA, date, out);
 } catch (SQLException e) {
     e.printStackTrace();
 } %>
 Εβδομαδιαίο Πρόγραμμα:
-<form action="/action_page.php">
+<form action="/doctorHome">
 <select name="program">
-    <option value="<% startOfWeek().toString();%>"><%out.print(startOfWeek().getDayOfMonth());%> εώς <%out.print(dateStr(0));%></option>
-    <option value="<% startOfWeek().toString();%>"><%out.print(startOfWeek().plusDays(7).getDayOfMonth());%> εώς <%out.print(dateStr(7));%></option>
-    <option value="<% startOfWeek().toString();%>"><%out.print(startOfWeek().plusDays(14).getDayOfMonth());%> εώς <%out.print(dateStr(14));%></option>
-    <option value="<% startOfWeek().toString();%>"><%out.print(startOfWeek().plusDays(21).getDayOfMonth());%> εώς <%out.print(dateStr(21));%></option>
-    <option value="<% startOfWeek().toString();%>"><%out.print(startOfWeek().plusDays(28).getDayOfMonth());%> εώς <%out.print(dateStr(28));%></option>
+    <option value=<% startOfWeek(0);%>><%out.print(startOfWeek(0));%> εώς <%out.print(dateStr(0));%></option>
+    <option value=<% startOfWeek(7);%>><%out.print(startOfWeek(7).getDayOfMonth());%> εώς <%out.print(dateStr(7));%></option>
+    <option value=<% startOfWeek(14);%>><%out.print(startOfWeek(14).getDayOfMonth());%> εώς <%out.print(dateStr(14));%></option>
+    <option value=<% startOfWeek(21);%>><%out.print(startOfWeek(21).getDayOfMonth());%> εώς <%out.print(dateStr(21));%></option>
+    <option value=<% startOfWeek(28);%>><%out.print(startOfWeek(28).getDayOfMonth());%> εώς <%out.print(dateStr(28));%></option>
 </select>
     <br><br>
     <input type="submit" value="Submit">
 </form>
 
-<% /*try {
-    com.core.system.management.Appointment.showAppointmentsByWeek(username, date);
-} catch (SQLException e) {
-    e.printStackTrace();
-}*/ %>
+<%
+    com.core.system.management.Appointment.showAppointmentForSequenceOfDays(doctorAMKA, request.getParameter("program"), 7, out);
+%>
 <!-- ο γιατρός θα μπορεί να αναζητήσει αν έχει κανονίσει ραντεβού με έναν συγκεκριμένο ασθενή-->
 Find a scheduled appointment with a specific patient!
-Enter the name of the patient: <input type="text" name="name">
-Enter the surname of the patient: <input type="text" name="surname">
+Enter the name of the patient: <input type="text" name="patient_name">
+Enter the surname of the patient: <input type="text" name="patient_surname">
 <button>Search</button>
-<% /*try {
-    String patient_name = "Petros";
-    String patient_surname = "Papadopoulos";
-    com.core.system.management.Appointment.showAppointmentDoctorSide(username, patient_name, patient_surname);
+<% try {
+    String patient_name = request.getParameter("patient_name");
+    String patient_surname = request.getParameter("patient_surname");
+    com.core.system.management.Appointment.showAppointmentDoctorSide(doctorAMKA, patient_name, patient_surname, out);
 } catch (SQLException e) {
     e.printStackTrace();
-}*/ %>
+} %>
 </body>
 </html>

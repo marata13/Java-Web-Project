@@ -28,7 +28,7 @@ public class DoctorLogin extends HttpServlet {
      * @param response
      */
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Doctor doctor = new Doctor();
         HashMap<String, String> userDetails;
 
@@ -47,6 +47,7 @@ public class DoctorLogin extends HttpServlet {
         }
         catch(LoginFailure | IOException | SQLException | ServletException e){
             // do something.
+            this.getServletContext().getRequestDispatcher("/errors/error.jsp").forward(request, response);
         }
     }
 }

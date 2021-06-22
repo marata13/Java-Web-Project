@@ -12,11 +12,11 @@
     <title>Doctor Login</title>
 </head>
 <body>
-<form action="../doctorLogin" method="post">
-    Enter your username: <input type="text" name="username">
-    Enter your password: <input type="password" name="password">
-    <input type="submit">
-</form>
+    <form action="../DoctorLogin" method="post">
+        Enter your username: <input type="text" name="username">
+        Enter your password: <input type="password" name="password">
+        <input type="submit">
+    </form>
 
 </body>
 </html>

@@ -27,7 +27,7 @@ public class AdminLogin extends HttpServlet {
      * @param response
      */
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Admin admin = new Admin();
         HashMap<String, String> userDetails;
 
@@ -44,6 +44,7 @@ public class AdminLogin extends HttpServlet {
         }
         catch(LoginFailure | IOException | SQLException | ServletException e){
             // do something.
+            this.getServletContext().getRequestDispatcher("/users/error.jsp").forward(request, response);
         }
     }
 }

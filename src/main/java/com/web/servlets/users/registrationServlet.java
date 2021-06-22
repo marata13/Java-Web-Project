@@ -1,4 +1,4 @@
 package com.web.servlets.users;
 
-public class registrationServlet {
+public class RegistrationServlet {
 }

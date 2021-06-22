@@ -17,7 +17,7 @@
         String username = (String) request.getAttribute("username");
         String name = (String) request.getAttribute("name");
         String surname = (String) request.getAttribute("surname");
-        String patientAMKA = (String) request.getAttribute("patientAMKA");
+        String patientAMKA = (String) request.getAttribute("patient_amka");
     %>
 
     THIS IS HOME
