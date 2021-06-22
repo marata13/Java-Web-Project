@@ -59,10 +59,12 @@ public class QueryManager {
     private static HashMap<String, String> retrieveData(ResultSet fromDB,
                                                         List<Object> dataToRetrieve) throws SQLException {
 
-        HashMap<String, String> retrievedData = new HashMap<>();
-        fromDB.next();
 
-        for (Object retrieve : dataToRetrieve) {
+        HashMap<String, String> retrievedData = new HashMap<>();
+        if (!fromDB.next()) return new HashMap<>();
+
+
+        for (Object retrieve : dataToRetrieve) { ;
             retrievedData.put((String) retrieve, fromDB.getString((String) retrieve));
         }
 
@@ -73,7 +75,7 @@ public class QueryManager {
      * Σε αυτη την μεθοδο τραβαμε απο την βαση δεδομενων ολα
      * τα απαραιτητα δεδομενα.
      *
-     * @param username Το username με το οποιο θα ψαξουμε στην βαση.
+     * @param selector Το username με το οποιο θα ψαξουμε στην βαση.
      * @param query Το ερωτημα που θελουμε να εκτελεσουμε.
      * @param conn Η συνδεση που εχουμε αποκαταστησει.
      * @param table Ο πινακας απο τον οποιο θελουμε να τραβιξουμε τα δεδομενα.
@@ -81,14 +83,15 @@ public class QueryManager {
      * @return Ενα HashMap<String,String> το οποιο περιεχει τις πληροφοριες που ζητηθηκαν.
      * @throws SQLException Αφου εμπλεκουμε SQL ερωτηματα.
      */
-    public static HashMap<String, String> getFromDatabase(String username,
+    public static HashMap<String, String> getFromDatabase(String selector,
                                                           String query,
                                                           Connection conn,
                                                           String table,
                                                           Object... retrieves) throws SQLException {
-        ResultSet resultsFromDB;
-        resultsFromDB = QueryManager.queryExecutor(MessageFormat.format(query, table), conn,false, username);
 
+
+        ResultSet resultsFromDB;
+        resultsFromDB = QueryManager.queryExecutor(MessageFormat.format(query, table), conn,false, selector);
         assert resultsFromDB != null;
         return QueryManager.retrieveData(resultsFromDB, Arrays.asList(retrieves));
     }
