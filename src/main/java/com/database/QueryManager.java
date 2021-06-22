@@ -64,7 +64,7 @@ public class QueryManager {
         if (!fromDB.next()) return new HashMap<>();
 
 
-        for (Object retrieve : dataToRetrieve) { ;
+        for (Object retrieve : dataToRetrieve) {
             retrievedData.put((String) retrieve, fromDB.getString((String) retrieve));
         }
 
