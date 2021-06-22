@@ -4,10 +4,10 @@ import com.database.Database;
 import com.database.QueryManager;
 import com.database.queries.Queries;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
+import java.util.concurrent.Executor;
+import java.util.regex.*;
 
 public class Admin extends User {
         List<Doctor> doctors;
@@ -29,6 +29,29 @@ public class Admin extends User {
                         "username",
                         "admin_userid"
                 );
+        }
+
+        public void confirmPatientRegistration(String username, String password, String confirm_password, String patient_amka){
+                try{
+                        HashMap<String, String> username_validation = QueryManager.getFromDatabase(username, Queries.RETRIEVE_USERNAME.query, Database.getConnection(), "patient", "username");
+                        HashMap<String, String> amka_validation = QueryManager.getFromDatabase(patient_amka, Queries.RETRIEVE_AMKA.query, Database.getConnection(), "patient", "patient_amka");
+                        if(!username_validation.isEmpty()){
+                                System.out.println("The username you used already exists");
+                        }
+                        if(!amka_validation.isEmpty()){
+                                System.out.println("The amka you used already exists");
+                        }
+                }catch (SQLException e){
+                 e.printStackTrace();
+                }
+                if(!password.matches("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9\\s]).{8,}")){
+                        System.out.println("Must contain at least 8 characters.\n" +
+                                "Must contain at least one uppercase and one lowercase letter.\n" +
+                                "Must contain at least one number and one special character");
+                }
+                if(!password.equals(confirm_password)){
+                        System.out.println("Please make sure your passwords match");
+                }
         }
 
         public void addDoctor(Doctor doctor) {

@@ -5,6 +5,7 @@ import com.core.system.systemUsers.Patient;
 import com.database.Database;
 import com.database.queries.Queries;
 
+import javax.servlet.jsp.JspWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -12,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -85,7 +87,7 @@ public class Appointment {
      * @param doctorAMKA The AMKA of the doctor we are interested in learning his program.
      * @param date The date on which the doctor wants to see his program.
      */
-    public static void showAllAppointments(String doctorAMKA,  LocalDate date, javax.servlet.jsp.JspWriter out) throws SQLException, IOException {
+    public static void showAppointmentsPerDay(String doctorAMKA,  LocalDate date, javax.servlet.jsp.JspWriter out) throws SQLException, IOException {
 
         //for (String s : doctor.getSchedule().keySet()) {
             //if(doctor.getSchedule().get(s) == null) System.out.println(s + " "); // free time
@@ -113,6 +115,22 @@ public class Appointment {
         }
         out.println();
         conn.close();
+    }
+
+    /**Display program for a sequence of days starting from the specified date
+     * @param doctorAMKA The AMKA of the doctor we want of whom the program we want to show
+     * @param starting_date The date from when we start showing the program
+     * @param number The number of consecutive days we want to show
+     * @param out The jsp writer
+     */
+    public static void showAppointmentForSequenceOfDays(String doctorAMKA, String starting_date, int number, JspWriter out){
+        try{
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            for(int i=0; i<number; i++){
+                LocalDate date = LocalDate.parse(starting_date, formatter).plusDays(i);
+                Appointment.showAppointmentsPerDay(doctorAMKA, date, out);
+            }
+        }catch(SQLException | IOException e){ e.printStackTrace();}
     }
 
     /**

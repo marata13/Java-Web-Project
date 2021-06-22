@@ -5,8 +5,12 @@ import com.database.Database;
 import com.database.QueryManager;
 import com.database.queries.Queries;
 
+import javax.servlet.jsp.JspWriter;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -132,7 +136,7 @@ public class Doctor extends User {
         times.clear();
     }
 
-    /**
+    /*
      * display doctor's program.
      */
     /*this method is called in doctorHome.jsp
@@ -140,7 +144,7 @@ public class Doctor extends User {
         appointment.showAllAppointments(this);
     }*/
 
-    /**
+    /*
      * Display a specific appointment.
      * @param time The time of the appointment.
      */
@@ -148,6 +152,7 @@ public class Doctor extends User {
     public void searchAppointment(String time) {
         appointment.showAppointment(this, time);
     }*/
+
 
     public void removeAppointment(String time) {
         if (schedule.get(time) == null) return;
