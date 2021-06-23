@@ -45,39 +45,78 @@ THIS IS HOME
         <td>doctorAMKA: <%=doctorAMKA%></td>
     </tr>
 </table>
-Ημερήσιο Πρόγραμμα:
+<br>Schedule your weekly program:
+<form action="../DoctorServlet" method="post">
+    <br>Week: <%out.print(startOfWeek(28).getDayOfMonth());%> to <%out.print(endOfWeek(28));%>
+    <button value="Yes">Yes, i want to schedule another week</button> &ensp; <button value="No">No, i'll leave it for later</button>
+</form>
+
+<%
+    String Yes = (String) request.getAttribute("Yes");
+    if (/*Yes.equals("Yes")*/true){
+        out.print("<form action=\"../DoctorServlet\" method=\"post\">");
+        out.println("<TABLE BORDER=1>");
+        out.println("<TR>");
+        for(int i=0;i<=6;i++) {
+            out.print("<TH>" + startOfWeek(28).plusDays(i).getDayOfWeek().toString() + " " + startOfWeek(28).plusDays(i).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        }
+        for(int j=0;j<=10;j++) {
+            out.println("<TR>");
+            for(int i=1;i<=7;i++) {
+                out.print("<TD>"+ "<button value=\"available"+  j + i + "\">Not Available</button>"); //με κλικ τα γράμματα θα αλλάζουν σε available
+            }
+            out.println();
+        }
+        out.print("</form>");
+        out.println();
+        out.println();
+    }
+%>
+<br>Choose a day to see its schedule:
 <!-- εδώ θα μπει ένα ημερολόγιο, όπου ο γιατρός θα μπορεί να επιλέγει μια από τις επόμενες 30 ημέρες -->
-<% try {
-    LocalDate date = java.time.LocalDate.of(2020, 7, 20);
-    com.core.system.management.Appointment.showAppointmentsPerDay(doctorAMKA, date, out);
-} catch (SQLException e) {
-    e.printStackTrace();
-} %>
-Εβδομαδιαίο Πρόγραμμα:
-<form action="/doctorHome">
+<%
+    //String out1 = (String) request.getAttribute("out1");
+    String date = (String) request.getAttribute("date");
+    if (date != null) {
+        try {
+            com.core.system.management.Appointment.showAppointmentsPerDay(request.getParameter("doctorAMKA"), date.toString(), out);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+%>
+<br><br>Choose a week to see its schedule:
+<form action="../DoctorServlet" method="post">
 <select name="program">
-    <option value=<% startOfWeek(0);%>><%out.print(startOfWeek(0));%> εώς <%out.print(dateStr(0));%></option>
-    <option value=<% startOfWeek(7);%>><%out.print(startOfWeek(7).getDayOfMonth());%> εώς <%out.print(dateStr(7));%></option>
-    <option value=<% startOfWeek(14);%>><%out.print(startOfWeek(14).getDayOfMonth());%> εώς <%out.print(dateStr(14));%></option>
-    <option value=<% startOfWeek(21);%>><%out.print(startOfWeek(21).getDayOfMonth());%> εώς <%out.print(dateStr(21));%></option>
-    <option value=<% startOfWeek(28);%>><%out.print(startOfWeek(28).getDayOfMonth());%> εώς <%out.print(dateStr(28));%></option>
+    <option value="null"></option>
+    <option value=<% startOfWeek(0);%>><%out.print(startOfWeek(0).getDayOfMonth());%> to <%out.print(endOfWeek(0));%></option>
+    <option value=<% startOfWeek(7);%>><%out.print(startOfWeek(7).getDayOfMonth());%> to <%out.print(endOfWeek(7));%></option>
+    <option value=<% startOfWeek(14);%>><%out.print(startOfWeek(14).getDayOfMonth());%> to <%out.print(endOfWeek(14));%></option>
+    <option value=<% startOfWeek(21);%>><%out.print(startOfWeek(21).getDayOfMonth());%> to <%out.print(endOfWeek(21));%></option>
+    <option value=<% startOfWeek(28);%>><%out.print(startOfWeek(28).getDayOfMonth());%> to <%out.print(endOfWeek(28));%></option>
 </select>
     <br><br>
     <input type="submit" value="Submit">
 </form>
-
 <%
-    com.core.system.management.Appointment.showAppointmentForSequenceOfDays(doctorAMKA, request.getParameter("program"), 7, out);
+    //String out2 = (String) request.getAttribute("out2");
+    String program = (String) request.getAttribute("program");
+    if(!program.equals("null"))
+    com.core.system.management.Appointment.showAppointmentForSequenceOfDays(doctorAMKA, program, 7, out);
 %>
 <!-- ο γιατρός θα μπορεί να αναζητήσει αν έχει κανονίσει ραντεβού με έναν συγκεκριμένο ασθενή-->
-Find a scheduled appointment with a specific patient!
-Enter the name of the patient: <input type="text" name="patient_name">
-Enter the surname of the patient: <input type="text" name="patient_surname">
-<button>Search</button>
+<form action="../DoctorServlet" method="post">
+    <br><br><br>Find a scheduled appointment with a specific patient!
+    <br>Enter the name of the patient: <input type="text" name="patient_name">
+    <br>Enter the surname of the patient: <input type="text" name="patient_surname">
+    <br><button>Search</button>
+</form>
 <% try {
-    String patient_name = request.getParameter("patient_name");
-    String patient_surname = request.getParameter("patient_surname");
-    com.core.system.management.Appointment.showAppointmentDoctorSide(doctorAMKA, patient_name, patient_surname, out);
+    String patient_name = (String) request.getAttribute("patient_name");
+    String patient_surname = (String) request.getAttribute("patient_surname");
+    if(patient_name != null && patient_surname != null) {
+        com.core.system.management.Appointment.showAppointmentDoctorSide(doctorAMKA, patient_name, patient_surname, out);
+    }
 } catch (SQLException e) {
     e.printStackTrace();
 } %>

@@ -15,7 +15,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-@WebServlet("/doctorLogin")
+@WebServlet("/DoctorLogin")
 public class DoctorLogin extends HttpServlet {
 
     @Override

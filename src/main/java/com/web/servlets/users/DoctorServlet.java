@@ -18,9 +18,9 @@ import java.util.HashMap;
 
 @WebServlet("/doctorHome")
 public class DoctorServlet extends HttpServlet {
-    /*@Override
+    @Override
     public void init() {
-    }*/
+    }
 
     /**
      *
@@ -28,47 +28,42 @@ public class DoctorServlet extends HttpServlet {
      * @param response
      */
 
-    /*@Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) {
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            StringBuilder MondayOfRequestedWeek = new StringBuilder();
-            MondayOfRequestedWeek.append(request.getParameter("program"));
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            //Monday
-            LocalDate date1 = LocalDate.parse(MondayOfRequestedWeek, formatter);
-            PrintWriter out = null;
-            //request.getParameter()
-            com.core.system.management.Appointment.showAllAppointments(request.getParameter("doctorAMKA"), date1, (JspWriter) out);
-            //Tuesday
-            LocalDate date2 = date1.plusDays(1);
-            com.core.system.management.Appointment.showAllAppointments(request.getParameter("doctorAMKA"), date2, out);
-            //Wednesday
-            LocalDate date3 = date1.plusDays(2);
-            com.core.system.management.Appointment.showAllAppointments(request.getParameter("doctorAMKA"), date3, out);
-            //Thursday
-            LocalDate date4 = date1.plusDays(3);
-            com.core.system.management.Appointment.showAllAppointments(request.getParameter("doctorAMKA"), date4, out);
-            //Friday
-            LocalDate date5 = date1.plusDays(4);
-            com.core.system.management.Appointment.showAllAppointments(request.getParameter("doctorAMKA"), date5, out);
-            //Saturday
-            LocalDate date6 = date1.plusDays(5);
-            com.core.system.management.Appointment.showAllAppointments(request.getParameter("doctorAMKA"), date6, out);
-            //Sunday
-            LocalDate date7 = date1.plusDays(6);
-            com.core.system.management.Appointment.showAllAppointments(request.getParameter("doctorAMKA"), date7, out);
+            //schedule weekly program
+            String Yes = request.getParameter("Yes");
+            request.setAttribute("Yes", Yes);
+            //show program for specific day
+            //PrintWriter out1 = response.getWriter();
+            LocalDate date = java.time.LocalDate.of(2021, 7, 13);
+            //com.core.system.management.Appointment.showAppointmentsPerDay(request.getParameter("doctorAMKA"), date.toString(), out1);
+            //show program for specific week
+            //PrintWriter out2 = response.getWriter();
+            String program = request.getParameter("program");
+            /*if(!request.getParameter("program").equals("null")) {
+                com.core.system.management.Appointment.showAppointmentForSequenceOfDays(request.getParameter("doctorAMKA"), request.getParameter("program"), 7, out2);
+            }*/
+            //show appointments for specific patient
+            //PrintWriter out3 = response.getWriter();
+            String patient_name = request.getParameter("patient_name");
+            String patient_surname = request.getParameter("patient_surname");
+            /*if(patient_name != null && patient_surname != null) {
+                com.core.system.management.Appointment.showAppointmentDoctorSide(request.getParameter("doctorAMKA"), patient_name, patient_surname, out3);
+            }*/
             // Εδω οριζουμε τι θα προωθησουμε στο jsp.
-            /*request.setAttribute("date1", date1);
-            request.setAttribute("date2", date2);
-            request.setAttribute("date3", date3);
-            request.setAttribute("date4", date4);
-            request.setAttribute("date5", date5);
-            request.setAttribute("date6", date6);*/
-
+            request.setAttribute("date", date);
+            request.setAttribute("program", program);
+            request.setAttribute("patient_name", patient_name);
+            request.setAttribute("patient_surname", patient_surname);
+            /*request.setAttribute("out1", out1);
+            request.setAttribute("out2", out2);
+            request.setAttribute("out3", out3);*/
             // Προωθουμε τα δεδομενα στο jsp.
-            /*this.getServletContext().getRequestDispatcher("/users/doctorHome.jsp").forward(request, response);
-        }catch(IOException | SQLException | ServletException e){
-            System.out.println("ok");
+            this.getServletContext().getRequestDispatcher("/users/doctorHome.jsp").forward(request, response);
+        }catch(IOException /*| SQLException*/ | ServletException e){
+            System.out.println("Something went wrong in DoctorServlet");
+            this.getServletContext().getRequestDispatcher("/errors/error.jsp").forward(request, response);
         }
-    }*/
+    }
 }

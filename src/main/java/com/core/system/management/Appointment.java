@@ -8,6 +8,7 @@ import com.database.queries.Queries;
 import javax.servlet.jsp.JspWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -87,14 +88,12 @@ public class Appointment {
      * @param doctorAMKA The AMKA of the doctor we are interested in learning his program.
      * @param date The date on which the doctor wants to see his program.
      */
-    public static void showAppointmentsPerDay(String doctorAMKA,  LocalDate date, javax.servlet.jsp.JspWriter out) throws SQLException, IOException {
-
-        //for (String s : doctor.getSchedule().keySet()) {
-            //if(doctor.getSchedule().get(s) == null) System.out.println(s + " "); // free time
-            //else System.out.println(s + " " + doctor.getSchedule().get(s).getName()); // closed.
-       //}
+    public static void showAppointmentsPerDay(String doctorAMKA,  String date, JspWriter out) throws SQLException, IOException {
+        Long doctor_amka = Long.parseLong(doctorAMKA);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date1 = LocalDate.parse(date, formatter);
         Connection conn = Database.getConnection();
-        ResultSet rs= getDoctorAppointments(doctorAMKA, date, conn, Queries.DOCTOR_APPOINTMENTS.query);
+        ResultSet rs= getDoctorAppointments(doctor_amka, date1, conn, Queries.DOCTOR_APPOINTMENTS.query);
 
         ResultSetMetaData rsMeta = rs.getMetaData();
         int columnCount = rsMeta.getColumnCount();
@@ -127,7 +126,7 @@ public class Appointment {
         try{
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             for(int i=0; i<number; i++){
-                LocalDate date = LocalDate.parse(starting_date, formatter).plusDays(i);
+                String date = LocalDate.parse(starting_date, formatter).plusDays(i).toString();
                 Appointment.showAppointmentsPerDay(doctorAMKA, date, out);
             }
         }catch(SQLException | IOException e){ e.printStackTrace();}
@@ -138,12 +137,14 @@ public class Appointment {
      * @param name The patient's name.
      * @param surname The patient's surname.
      */
-    public static void showAppointmentDoctorSide(String doctorAMKA, String name, String surname, javax.servlet.jsp.JspWriter out) throws SQLException, IOException {
+    public static void showAppointmentDoctorSide(String doctorAMKA, String name, String surname, JspWriter out) throws SQLException, IOException {
+        Long doctor_amka = Long.parseLong(doctorAMKA);
         Connection conn = Database.getConnection();
-        ResultSet rs= getSpecificDoctorAppointments(doctorAMKA, name, surname, conn, Queries.SPECIFIC_DOCTOR_APPOINTMENTS.query);
+        ResultSet rs= getSpecificDoctorAppointments(doctor_amka, name, surname, conn, Queries.SPECIFIC_DOCTOR_APPOINTMENTS.query);
 
         ResultSetMetaData rsMeta = rs.getMetaData();
         int columnCount = rsMeta.getColumnCount();
+        out.println("<TABLE>");
         out.println("<TABLE BORDER=1>");
         out.println("<TR>");
         for(int i=1;i<=columnCount;i++) {
@@ -160,9 +161,8 @@ public class Appointment {
             out.println();
         }
         out.println();
+        out.println("</TABLE>");
         conn.close();
-        //if(doctor.getSchedule().containsKey(time) && doctor.getSchedule().get(time) != null)  System.out.println(time + " " + doctor.getSchedule().get(time).getName());
-        //else System.out.println("There is no scheduled appointment on " + time);
     }
 
     /**
@@ -206,7 +206,7 @@ public class Appointment {
      * @throws SQLException
      * @throws IOException
      */
-    public static void showPreviousAppointments(String username, javax.servlet.jsp.JspWriter out) throws SQLException, IOException {
+    public static void showPreviousAppointments(String username, JspWriter out) throws SQLException, IOException {
         Connection conn = Database.getConnection();
         ResultSet rs= getPreviousAppointments(username,conn, Queries.PREVIOUS_APPOINTMENTS.query);
 
