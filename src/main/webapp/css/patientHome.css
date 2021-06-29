@@ -1,0 +1,11 @@
+body {
+    background-color: #1b1b1b;
+}
+
+.logoutButton {
+    background-color: #1b1b1b;
+    width: 20%;
+    height: 30px;
+    font-size: 70%;
+    color: white;
+}

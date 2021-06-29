@@ -35,18 +35,16 @@ public class DoctorLogin extends HttpServlet {
 
         try {
             doctor.login(request.getParameter("username"), request.getParameter("password"), "doctor");
-            request.getSession().setAttribute("username", request.getParameter("username"));
             userDetails = doctor.getUserDetails(request.getParameter("username"),"doctor");
             // Εδω οριζουμε τι θα προωθησουμε στο jsp.
-            request.setAttribute("username", userDetails.get("username"));
-            request.setAttribute("name", userDetails.get("name"));
-            request.setAttribute("surname", userDetails.get("surname"));
-            request.setAttribute("specialty", userDetails.get("specialty"));
-            request.setAttribute("doctor_amka", userDetails.get("doctor_amka"));
-            // Προωθουμε τα δεδομενα στο jsp.
-            this.getServletContext().getRequestDispatcher("/users/doctorHome.jsp").forward(request, response);
+            request.getSession().setAttribute("username", userDetails.get("username"));
+            request.getSession().setAttribute("name", userDetails.get("name"));
+            request.getSession().setAttribute("surname", userDetails.get("surname"));
+            request.getSession().setAttribute("specialty", userDetails.get("specialty"));
+            request.getSession().setAttribute("doctor_amka", userDetails.get("doctor_amka"));
+            response.sendRedirect(request.getContextPath()+"/users/doctorHome.jsp");
         }
-        catch(LoginFailure | IOException | SQLException | ServletException | NoSuchAlgorithmException e){
+        catch(LoginFailure | IOException | SQLException | NoSuchAlgorithmException e){
             // do something.
             this.getServletContext().getRequestDispatcher("/errors/error.jsp").forward(request, response);
         }

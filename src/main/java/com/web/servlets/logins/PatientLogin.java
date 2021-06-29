@@ -18,11 +18,6 @@ import java.util.HashMap;
     
 @WebServlet("/PatientLogin")
 public class PatientLogin extends HttpServlet {
-
-    @Override
-    public void init() {
-    }
-
     /**
      *
      * @param request
@@ -35,17 +30,15 @@ public class PatientLogin extends HttpServlet {
 
         try {
             patient.login(request.getParameter("username"), request.getParameter("password"), "patient");
-            request.getSession().setAttribute("username", request.getParameter("username"));
             userDetails = patient.getUserDetails(request.getParameter("username"),"patient");
             // Εδω οριζουμε τι θα προωθησουμε στο jsp.
-            request.setAttribute("username", userDetails.get("username"));
-            request.setAttribute("name", userDetails.get("name"));
-            request.setAttribute("surname", userDetails.get("surname"));
-            request.setAttribute("patient_amka", userDetails.get("patient_amka"));
-            // Προωθουμε τα δεδομενα στο jsp.
-            this.getServletContext().getRequestDispatcher("/users/patientHome.jsp").forward(request, response);
+            request.getSession().setAttribute("username", userDetails.get("username"));
+            request.getSession().setAttribute("name", userDetails.get("name"));
+            request.getSession().setAttribute("surname", userDetails.get("surname"));
+            request.getSession().setAttribute("patient_amka", userDetails.get("patient_amka"));
+            response.sendRedirect(request.getContextPath()+"/users/patientHome.jsp");
         }
-        catch(LoginFailure | IOException | SQLException | ServletException | NoSuchAlgorithmException e){
+        catch(LoginFailure | IOException | SQLException | NoSuchAlgorithmException e){
             // do something.
             this.getServletContext().getRequestDispatcher("/errors/error.jsp").forward(request, response);
         }

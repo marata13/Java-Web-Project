@@ -12,11 +12,12 @@
     <title>Admin Home</title>
 </head>
 <body>
-<%
-    // Εδω λαμβανουμε ολα τα σχετικα δεδομενα απο το servlet.
-    String username = (String) request.getAttribute("username");
-    String AdminID = (String) request.getAttribute("admin_userid");
-%>
+    <%
+        if (request.getSession().getAttribute("username") == null) response.sendError(403);
+        // Εδω λαμβανουμε ολα τα σχετικα δεδομενα απο το servlet.
+        String username = (String) request.getSession().getAttribute("username");
+        String AdminID = (String) request.getSession().getAttribute("admin_userid");
+    %>
 
 THIS IS HOME
 <table>

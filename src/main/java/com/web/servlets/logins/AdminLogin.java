@@ -34,16 +34,14 @@ public class AdminLogin extends HttpServlet {
 
         try {
             admin.login(request.getParameter("username"), request.getParameter("password"), "admin");
-            request.getSession().setAttribute("username", request.getParameter("username"));
             userDetails = admin.getUserDetails(request.getParameter("username"),"admin");
             // Εδω οριζουμε τι θα προωθησουμε στο jsp.
-            request.setAttribute("username", userDetails.get("username"));
-            request.setAttribute("name", userDetails.get("name"));
-            request.setAttribute("admin_userid", userDetails.get("admin_userid"));
-            // Προωθουμε τα δεδομενα στο jsp.
-            this.getServletContext().getRequestDispatcher("/users/adminHome.jsp").forward(request, response);
+            request.getSession().setAttribute("username", userDetails.get("username"));
+            request.getSession().setAttribute("name", userDetails.get("name"));
+            request.getSession().setAttribute("admin_userid", userDetails.get("admin_userid"));
+            response.sendRedirect(request.getContextPath()+"/users/adminHome.jsp");
         }
-        catch(LoginFailure | IOException | SQLException | ServletException | NoSuchAlgorithmException e){
+        catch(LoginFailure | IOException | SQLException | NoSuchAlgorithmException e){
             // do something.
             this.getServletContext().getRequestDispatcher("/users/error.jsp").forward(request, response);
         }

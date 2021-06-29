@@ -6,6 +6,7 @@ import com.database.Database;
 import com.database.QueryManager;
 import com.database.queries.Queries;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -69,13 +70,17 @@ public abstract class User {
         String fromDBPassword = dbCredentials.get("password");
         String hashedPassword = SecurityManager.getHash(password);
 
+        System.out.println(fromDBPassword.equals(hashedPassword));
+
         if (!(username.equals(fromDBUsername) && hashedPassword.equals(fromDBPassword))) {
             throw new LoginFailure("Login Failed...");
         }
     }
 
-    public void logout(HttpSession session) {
-        session.getAttribute("username");
-        session.invalidate();
+    public static void logout(HttpServletRequest request, HttpServletResponse response, String file) throws IOException {
+        String contextPath = request.getContextPath();
+        request.getSession().invalidate();
+        //session.getAttribute("username");
+        response.sendRedirect(contextPath+"/"+file);
     }
 }

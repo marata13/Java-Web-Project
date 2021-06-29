@@ -13,13 +13,14 @@
 </head>
 <body>
     <%
-    // Εδω λαμβανουμε ολα τα σχετικα δεδομενα απο το servlet.
-    String username = (String) request.getAttribute("username");
-    String name = (String) request.getAttribute("name");
-    String surname = (String) request.getAttribute("surname");
-    String specialty = (String) request.getAttribute("specialty");
-    String doctorAMKA = (String) request.getAttribute("doctor_amka");
-%>
+        if (request.getSession().getAttribute("username") == null) response.sendError(403);
+        // Εδω λαμβανουμε ολα τα σχετικα δεδομενα απο το servlet.
+        String username = (String) request.getSession().getAttribute("username");
+        String name = (String) request.getSession().getAttribute("name");
+        String surname = (String) request.getSession().getAttribute("surname");
+        String specialty = (String) request.getSession().getAttribute("specialty");
+        String doctorAMKA = (String) request.getSession().getAttribute("doctor_amka");
+    %>
 
 THIS IS HOME
 <table>
