@@ -196,4 +196,12 @@ public class QueryManager {
         st.setLong(3, doctor_amka);
         return st.executeQuery();
     }
+    public static ResultSet getDoctorAppointmentsPerWeek(LocalDate starting_date,long doctor_amka, Connection conn , String query) throws SQLException {
+        PreparedStatement st = conn.prepareStatement(query);
+
+        st.setDate(1,currentDate(starting_date));
+        st.setDate(2,currentDate(starting_date.plusDays(6)));
+        st.setLong(3, doctor_amka);
+        return st.executeQuery();
+    }
 }

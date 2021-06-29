@@ -31,6 +31,7 @@ public class Admin extends User {
                 );
         }
 
+        //toDo:αν βάλουμε προσωρινό πίνακα ασθενών, στην sql θα γράψουμε: create table temp_patient like patient
         public void confirmPatientRegistration(String username, String password, String confirm_password, String patient_amka){
                 try{
                         HashMap<String, String> username_validation = QueryManager.getFromDatabase(username, Queries.RETRIEVE_USERNAME.query, Database.getConnection(), "patient", "username");

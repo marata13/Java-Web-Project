@@ -21,6 +21,7 @@ import java.util.HashSet;
 
 import static com.database.QueryManager.*;
 
+
 /**
  * This class is responsible for all the
  * functions that must be performed, so
@@ -88,7 +89,7 @@ public class Appointment {
      * @param doctorAMKA The AMKA of the doctor we are interested in learning his program.
      * @param date The date on which the doctor wants to see his program.
      */
-    public static void showAppointmentsPerDay(String doctorAMKA,  String date, JspWriter out) throws SQLException, IOException {
+    public static void showAppointmentsPerDay(String doctorAMKA,  String date, PrintWriter out) throws SQLException, IOException {
         Long doctor_amka = Long.parseLong(doctorAMKA);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date1 = LocalDate.parse(date, formatter);
@@ -119,18 +120,33 @@ public class Appointment {
     /**Display program for a sequence of days starting from the specified date
      * @param doctorAMKA The AMKA of the doctor we want of whom the program we want to show
      * @param starting_date The date from when we start showing the program
-     * @param number The number of consecutive days we want to show
      * @param out The jsp writer
      */
-    public static void showAppointmentForSequenceOfDays(String doctorAMKA, String starting_date, int number, JspWriter out){
-        try{
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            for(int i=0; i<number; i++){
-                String date = LocalDate.parse(starting_date, formatter).plusDays(i).toString();
-                Appointment.showAppointmentsPerDay(doctorAMKA, date, out);
+    public static void showAppointmentPerWeek(long doctorAMKA, LocalDate starting_date,PrintWriter out) throws SQLException {
+        Connection conn = Database.getConnection();
+        ResultSet rs= getDoctorAppointmentsPerWeek(starting_date,doctorAMKA,conn, Queries.DOCTOR_APPOINTMENT_PER_WEEK.query);
+
+        ResultSetMetaData rsMeta = rs.getMetaData();
+        int columnCount = rsMeta.getColumnCount();
+        out.println("<TABLE BORDER=1>");
+        out.println("<TR>");
+        for(int i=1;i<=columnCount;i++) {
+            out.print("<TH>"+rsMeta.getColumnName(i));
+        }
+        out.println();
+
+
+        while(rs.next()) {
+            out.println("<TR>");
+            for(int i=1;i<=columnCount;i++) {
+                out.print("<TD>"+rs.getString(i));
             }
-        }catch(SQLException | IOException e){ e.printStackTrace();}
+            out.println();
+        }
+        out.println();
+        conn.close();
     }
+
 
     /**
      * This method finds a specific doctor appointment.
