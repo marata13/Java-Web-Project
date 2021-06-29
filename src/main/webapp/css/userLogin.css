@@ -1,0 +1,41 @@
+body {
+    background-color: #1b1b1b;
+}
+
+input[type=text] {
+    background-color: #1b1b1b;
+    width: 20%;
+    height: 30px;
+    font-size: 100%;
+    border-radius: 14px;
+    text-align: center;
+    color: white;
+}
+input[type=password] {
+    background-color: #1b1b1b;
+    width: 20%;
+    height: 30px;
+    font-size: 100%;
+    border-radius: 14px;
+    text-align: center;
+    color: white;
+}
+
+#username {
+    color: white;
+    margin-top: 10%;
+}
+
+#password {
+    color: white;
+    margin-top: 3%;
+
+}
+
+#loginButton {
+    background-color: #1b1b1b;
+    width: 10%;
+    height: 30px;
+    color: white;
+    font-size: 100%;
+}

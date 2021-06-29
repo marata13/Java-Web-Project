@@ -11,5 +11,5 @@ function validateInput() {
 }
 
 function validateLogout() {
-    return confirm("Are user you want to logout?");
+    return confirm("Are sure you want to logout?");
 }

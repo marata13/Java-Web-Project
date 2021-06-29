@@ -3,8 +3,8 @@
 <html>
 <head>
     <title>Patient Login</title>
-    <link rel="stylesheet" href="../css/patient/patient.css">
-    <script type="text/javascript" src="../js/patient.js"></script>
+    <link rel="stylesheet" href="../css/userLogin.css">
+    <script type="text/javascript" src="../js/userLogin.js"></script>
 </head>
 <body>
 

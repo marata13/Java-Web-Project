@@ -6,7 +6,7 @@
 <head>
     <title>Patient Home</title>
     <link rel="stylesheet" href="../css/patient/patient.css">
-    <script type="text/javascript" src="../js/patient.js"></script>
+    <script type="text/javascript" src="../js/userLogin.js"></script>
 </head>
 <body>
 
