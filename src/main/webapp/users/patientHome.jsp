@@ -1,11 +1,12 @@
 <%@ page import="java.sql.SQLException" %>
-<%@ page import="com.core.system.systemUsers.User" %>
+<%@ page import="com.core.system.management.Appointment" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Patient Home</title>
-    <link rel="stylesheet" href="../css/patientHome.css">
+    <link rel="stylesheet" href="../css/patient/patient.css">
+    <script type="text/javascript" src="../js/patient.js"></script>
 </head>
 <body>
 
@@ -18,13 +19,49 @@
         String patientAMKA = (String) request.getSession().getAttribute("patient_amka");
     %>
 
-    <div class="patientInfos">
+    <table class="patientInfo">
+        <tr>
+            <th>
+                username
+            </th>
+            <th>
+                name
+            </th>
+            <th>
+                surname
+            </th>
+            <th>
+                AMKA
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <%=username%>
+            </td>
+            <td>
+                <%=name%>
+            </td>
+            <td>
+                <%=surname%>
+            </td>
+            <td>
+                <%=patientAMKA%>
+            </td>
+        </tr>
+    </table>
 
-    </div>
+    <table class="appointments">
+        <%
+            try {
+                Appointment.showPreviousAppointments(username, out);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        %>
+    </table>
 
-
-    <form action="../LogoutServlet" method="post">
-        <input type="submit" style="position: absolute; right: 1%;">
+    <form action="../LogoutServlet" method="post" onsubmit="return validateLogout()">
+        <input type="submit" value="Logout" class="logoutButton" style="position: absolute; right: 1%;">
     </form>
 </body>
 </html>

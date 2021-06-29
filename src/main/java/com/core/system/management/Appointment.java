@@ -228,7 +228,6 @@ public class Appointment {
 
         ResultSetMetaData rsMeta = rs.getMetaData();
         int columnCount = rsMeta.getColumnCount();
-        out.println("<TABLE BORDER=1>");
         out.println("<TR>");
         for(int i=1;i<=columnCount;i++) {
             out.print("<TH>"+rsMeta.getColumnName(i));

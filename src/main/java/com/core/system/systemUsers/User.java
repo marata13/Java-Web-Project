@@ -70,8 +70,6 @@ public abstract class User {
         String fromDBPassword = dbCredentials.get("password");
         String hashedPassword = SecurityManager.getHash(password);
 
-        System.out.println(fromDBPassword.equals(hashedPassword));
-
         if (!(username.equals(fromDBUsername) && hashedPassword.equals(fromDBPassword))) {
             throw new LoginFailure("Login Failed...");
         }

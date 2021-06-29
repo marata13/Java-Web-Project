@@ -1,0 +1,69 @@
+body {
+    background-color: #1b1b1b;
+}
+
+table, td, th {
+    border: 1px solid white;
+}
+
+.logoutButton {
+    background-color: #1b1b1b;
+    width: 10%;
+    margin-top: 0;
+    height: 40px;
+    font-size: 70%;
+    color: white;
+}
+
+.patientInfo {
+    position: absolute;
+    text-align: center;
+    color: white;
+    margin-left: 30%;
+}
+
+.appointments {
+    position: absolute;
+    text-align: center;
+    color: white;
+    margin-left: 19%;
+    margin-top: 10%;
+}
+
+input[type=text] {
+    background-color: #1b1b1b;
+    width: 20%;
+    height: 30px;
+    font-size: 100%;
+    border-radius: 14px;
+    text-align: center;
+    color: white;
+}
+input[type=password] {
+    background-color: #1b1b1b;
+    width: 20%;
+    height: 30px;
+    font-size: 100%;
+    border-radius: 14px;
+    text-align: center;
+    color: white;
+}
+
+#username {
+    color: white;
+    margin-top: 10%;
+}
+
+#password {
+    color: white;
+    margin-top: 3%;
+
+}
+
+#loginButton {
+    background-color: #1b1b1b;
+    width: 10%;
+    height: 30px;
+    color: white;
+    font-size: 100%;
+}
