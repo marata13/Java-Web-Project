@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -44,7 +45,7 @@ public class PatientLogin extends HttpServlet {
             // Προωθουμε τα δεδομενα στο jsp.
             this.getServletContext().getRequestDispatcher("/users/patientHome.jsp").forward(request, response);
         }
-        catch(LoginFailure | IOException | SQLException | ServletException e){
+        catch(LoginFailure | IOException | SQLException | ServletException | NoSuchAlgorithmException e){
             // do something.
             this.getServletContext().getRequestDispatcher("/errors/error.jsp").forward(request, response);
         }

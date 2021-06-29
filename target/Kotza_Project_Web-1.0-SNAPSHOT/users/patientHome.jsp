@@ -20,26 +20,6 @@
         String patientAMKA = (String) request.getAttribute("patient_amka");
     %>
 
-    THIS IS HOME
-    <table>
 
-        <tr>
-            <td>username: <%=username%></td>
-        </tr>
-        <tr>
-            <td>name: <%=name%></td>
-        </tr>
-        <tr>
-            <td>surname: <%=surname%></td>
-        </tr>
-        <tr>
-            <td>patientAMKA: <%=patientAMKA%></td>
-        </tr>
-    </table>
-    <% try {
-        com.core.system.management.Appointment.showPreviousAppointments(username, out);
-    } catch (SQLException e) {
-        e.printStackTrace();
-    } %>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.core.system.systemUsers;
 
 import com.core.exceptions.LoginFailure;
+import com.core.security.SecurityManager;
 import com.database.Database;
 import com.database.QueryManager;
 import com.database.queries.Queries;
@@ -8,6 +9,7 @@ import com.database.queries.Queries;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -50,7 +52,7 @@ public abstract class User {
      */
     public void login(String username,
                       String password,
-                      String table) throws LoginFailure, SQLException {
+                      String table) throws LoginFailure, SQLException, NoSuchAlgorithmException {
 
         HashMap<String, String> dbCredentials = new HashMap<>();
 
@@ -65,8 +67,9 @@ public abstract class User {
 
         String fromDBUsername = dbCredentials.get("username");
         String fromDBPassword = dbCredentials.get("password");
+        String hashedPassword = SecurityManager.getHash(password);
 
-        if (!(username.equals(fromDBUsername) && password.equals(fromDBPassword))) {
+        if (!(username.equals(fromDBUsername) && hashedPassword.equals(fromDBPassword))) {
             throw new LoginFailure("Login Failed...");
         }
     }

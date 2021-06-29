@@ -1,0 +1,31 @@
+body {
+    background-color: #1b1b1b;
+    text-align: center;
+}
+
+#title {
+    color: white;
+    font-size: 120%;
+    text-align: center;
+}
+
+.linkButtonsRow1 {
+    background-color: #1b1b1b;
+    width: 20%;
+    height: 30px;
+    font-size: 70%;
+    margin-top: 15%;
+    text-align: center;
+    color: white;
+}
+
+.linkButtonsRow2 {
+    background-color: #1b1b1b;
+    text-align: center;
+    width: 20%;
+    height: 30px;
+    font-size: 70%;
+    margin-top: 2%;
+    color: white;
+    position: center;
+}

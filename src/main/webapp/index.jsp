@@ -3,17 +3,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>User Login</title>
+    <link rel="stylesheet" href="./css/index.css">
 </head>
 <body>
-<h1>Welcome to our site!
-    <h3>Here you can schedule medical appointments</h3>
-</h1>
-<br/>
-<a href="webForms/userRegister.jsp">Register</a>
-<a href="webForms/patientLogin.jsp">Login as Patient</a>
-<a href="webForms/doctorLogin.jsp">Login as Doctor</a>
-<a href="webForms/adminLogin.jsp">Login as Admin</a>
-<br>
+    <div id="title">
+        <b>Login System</b>
+    </div>
+
+    <button class="linkButtonsRow1" onclick="window.location.href='webForms/userRegister.jsp'">
+        Register
+    </button>
+    <button class="linkButtonsRow1" onclick="window.location.href='webForms/patientLogin.jsp'">
+        Login as Patient
+    </button>
+    <br>
+    <button class="linkButtonsRow2" onclick="window.location.href='webForms/doctorLogin.jsp'">
+        Login as Doctor
+    </button>
+    <button class="linkButtonsRow2" onclick="window.location.href='webForms/adminLogin.jsp'">
+        Login as Admin
+    </button>
 </body>
 </html>
