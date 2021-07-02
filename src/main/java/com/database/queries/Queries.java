@@ -16,7 +16,11 @@ public enum Queries {
 
     SPECIFIC_DOCTOR_APPOINTMENTS("select date,time,patient_name,patient_surname from appointment where patient_name= ? and patient_surname=? and doctor_amka= ? order by date"),
 
-    DOCTOR_APPOINTMENT_PER_WEEK(" select date,time,patient_name,patient_surname from appointment where date>=? and date<=? and doctor_amka=? order by (date,time)");
+    DOCTOR_APPOINTMENT_PER_WEEK(" select date,time,patient_name,patient_surname from appointment where date>=? and date<=? and doctor_amka=? order by (date,time)"),
+
+    NEXT_APPOINTMENTS("select appointment_id,date,time,doctor_name,doctor_surname,doctor_specialty from appointment where date>= ? and patient_username= ? order by date"),
+
+    DELETE_APPOINTMENTS("UPDATE appointment SET patient_username = null, patient_surname = null, patient_name = null WHERE appointment_id = ?");
 
     public final String query;
 

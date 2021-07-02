@@ -277,4 +277,33 @@ public class Appointment {
             }
         }
     }
+
+    public static void showNextAppointmentsAndDelete(String username, JspWriter out) throws SQLException, IOException {
+        Connection conn = Database.getConnection();
+        ResultSet rs= getNextAppointmentsAndDelete(username,conn, Queries.NEXT_APPOINTMENTS.query);
+
+        ResultSetMetaData rsMeta = rs.getMetaData();
+        int columnCount = rsMeta.getColumnCount();
+        out.println("<TR>");
+        for(int i=2;i<=columnCount;i++) {
+            out.print("<TH>"+rsMeta.getColumnName(i));
+        }out.print("<TH>Delete");
+        out.println();
+
+
+        while(rs.next()) {
+            out.println("<TR>");
+            for(int i=2;i<=columnCount;i++) {
+                out.print("<TD>"+rs.getString(i));
+            }if(rs.getDate(2).compareTo(currentDate(java.time.LocalDate.now().plusDays(3)))>=0){
+
+                out.print("<TD><form  name=\"DeleteAppointments\" action=\"/Kotza_Project_Web_war/DeleteAppointments\" method=\"post\">" +
+                        "<input type=\"hidden\" name=\"appointmentID\" value=\"" +rs.getInt(1) + "\">" +
+                        "<input type=\"submit\" id = \"deleteButton\" value=\"delete\"></form>");
+            }
+            out.println();
+        }
+        out.println();
+        conn.close();
+    }
 }

@@ -1,5 +1,8 @@
 package com.database;
 
+import com.database.queries.Queries;
+import com.web.servlets.session.DeleteAppointments;
+
 import java.math.BigInteger;
 import java.sql.*;
 import java.sql.Date;
@@ -203,5 +206,20 @@ public class QueryManager {
         st.setDate(2,currentDate(starting_date.plusDays(6)));
         st.setLong(3, doctor_amka);
         return st.executeQuery();
+    }
+
+    public static ResultSet getNextAppointmentsAndDelete(String username,  Connection conn,String query) throws SQLException {
+        PreparedStatement st = conn.prepareStatement(query);
+
+        st.setDate(1, currentDate(java.time.LocalDate.now()));
+        st.setString(2, username);
+        return st.executeQuery();
+    }
+
+    public static void deleteAppointment(int id) throws SQLException {
+        PreparedStatement st =Database.getConnection().prepareStatement(Queries.DELETE_APPOINTMENTS.query);
+
+        st.setInt(1,id);
+        st.executeUpdate();
     }
 }
