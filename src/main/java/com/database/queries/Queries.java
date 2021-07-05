@@ -20,7 +20,11 @@ public enum Queries {
 
     NEXT_APPOINTMENTS("select appointment_id,date,time,doctor_name,doctor_surname,doctor_specialty from appointment where date>= ? and patient_username= ? order by date"),
 
-    DELETE_APPOINTMENTS("UPDATE appointment SET patient_username = null, patient_surname = null, patient_name = null WHERE appointment_id = ?");
+    DELETE_APPOINTMENTS("UPDATE appointment SET patient_username = null, patient_surname = null, patient_name = null WHERE appointment_id = ?"),
+
+    AVAILABLE_APPOINTMENTS("select appointment_id,date,time,doctor_name,doctor_surname,doctor_specialty from appointment where doctor_specialty=? and date>=? and patient_username is null and patient_name is null and patient_surname is null"),
+
+    MAKE_APPOINTMENTS("UPDATE appointment SET patient_username = ?, patient_surname = ?, patient_name = ? WHERE appointment_id = ?");
 
     public final String query;
 

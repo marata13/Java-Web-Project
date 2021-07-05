@@ -216,10 +216,30 @@ public class QueryManager {
         return st.executeQuery();
     }
 
-    public static void deleteAppointment(int id) throws SQLException {
+    public static int deleteAppointment(int id) throws SQLException {
         PreparedStatement st =Database.getConnection().prepareStatement(Queries.DELETE_APPOINTMENTS.query);
 
         st.setInt(1,id);
-        st.executeUpdate();
+        return st.executeUpdate();
+    }
+
+    public static ResultSet getAvailableAppointments(Connection conn ,
+                                                     String doctorSpecialty , String query) throws SQLException {
+        PreparedStatement st = conn.prepareStatement(query);
+
+        st.setString(1,doctorSpecialty);
+        st.setDate(2, currentDate(java.time.LocalDate.now()));
+        return st.executeQuery();
+    }
+
+    public static int makeAppointment(String patient_username,String patient_surname,
+                                       String patient_name,int appointmentID) throws SQLException {
+        PreparedStatement st =Database.getConnection().prepareStatement(Queries.MAKE_APPOINTMENTS.query);
+
+        st.setString(1,patient_username);
+        st.setString(2,patient_surname);
+        st.setString(3,patient_name);
+        st.setInt(4,appointmentID);
+        return st.executeUpdate();
     }
 }

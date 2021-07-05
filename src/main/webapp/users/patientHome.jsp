@@ -63,5 +63,25 @@
     <form action="../LogoutServlet" method="post" onsubmit="return validateLogout()">
         <input type="submit" value="Logout" class="logoutButton" style="position: absolute; right: 1%;">
     </form>
+
+    <br><br>
+    <table class="form">
+    <div style="text-align: center;">
+    <FORM action="/Kotza_Project_Web_war/availableAppointmentServlet" method="post">
+        <label for="availableAppointments"><p style="color:white">Choose a doctor specialty to find available appointments:</p></label>
+        <select name="doctorSpecialty" id="availableAppointments">
+            <option value="pathologist">pathologist</option>
+            <option value="ophthalmologist">ophthalmologist</option>
+            <option value="orthopedic">orthopedic</option>
+        </select>
+        <br><br>
+        <input type="hidden" name="username" value="<%=username%>">
+        <input type="hidden" name="surname" value="<%=surname%>">
+        <input type="hidden" name="name" value="<%=name%>">
+        <input type="submit" value="Submit">
+
+    </FORM>
+    </div>
+    </table>
 </body>
 </html>

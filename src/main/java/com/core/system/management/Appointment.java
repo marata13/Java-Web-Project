@@ -281,7 +281,10 @@ public class Appointment {
     public static void showNextAppointmentsAndDelete(String username, JspWriter out) throws SQLException, IOException {
         Connection conn = Database.getConnection();
         ResultSet rs= getNextAppointmentsAndDelete(username,conn, Queries.NEXT_APPOINTMENTS.query);
+        if(rs.next()==false){
 
+            out.print("<h1>No available appointments have been found<h1>");
+        }else{
         ResultSetMetaData rsMeta = rs.getMetaData();
         int columnCount = rsMeta.getColumnCount();
         out.println("<TR>");
@@ -290,20 +293,66 @@ public class Appointment {
         }out.print("<TH>Delete");
         out.println();
 
+        /*if(rs.next()==false){
+
+            out.print("<TR><TD>No available appointments have been found");
+        }*/
+
+        while(rs.next()) {
+            out.println("<TR>");
+            for (int i = 2; i <= columnCount; i++) {
+                out.print("<TD>" + rs.getString(i));
+            }
+            if (rs.getDate(2).compareTo(currentDate(java.time.LocalDate.now().plusDays(3))) >= 0) {
+
+                out.print("<TD><form  name=\"DeleteAppointments\" action=\"/Kotza_Project_Web_war/DeleteAppointments\" method=\"post\">" +
+                        "<input type=\"hidden\" name=\"appointmentID\" value=\"" + rs.getInt(1) + "\">" +
+                        "<input type=\"submit\" id = \"deleteButton\" value=\"delete\"></form>");
+            }
+            out.println();
+        }
+        }
+        out.println();
+        conn.close();
+    }
+
+    public static void makeAppointmentBySpeciality( PrintWriter out
+            ,String patient_username,String patient_surname
+            ,String patient_name, String doctorSpecialty) throws SQLException {
+        Connection conn = Database.getConnection();
+        ResultSet rs= getAvailableAppointments(conn,doctorSpecialty, Queries.AVAILABLE_APPOINTMENTS.query);
+        if(rs.next()==false){
+
+              out.print("<h1>No available appointments have been found<h1>");
+             }else{
+
+        ResultSetMetaData rsMeta = rs.getMetaData();
+        int columnCount = rsMeta.getColumnCount();
+        out.println("<TABLE BORDER=1>");
+        out.println("<TR>");
+        for(int i=2;i<=columnCount;i++) {
+            out.print("<TH>"+rsMeta.getColumnName(i));
+        }out.print("<TH>Make appointment");
+        out.println();
+
+
 
         while(rs.next()) {
             out.println("<TR>");
             for(int i=2;i<=columnCount;i++) {
                 out.print("<TD>"+rs.getString(i));
-            }if(rs.getDate(2).compareTo(currentDate(java.time.LocalDate.now().plusDays(3)))>=0){
-
-                out.print("<TD><form  name=\"DeleteAppointments\" action=\"/Kotza_Project_Web_war/DeleteAppointments\" method=\"post\">" +
-                        "<input type=\"hidden\" name=\"appointmentID\" value=\"" +rs.getInt(1) + "\">" +
-                        "<input type=\"submit\" id = \"deleteButton\" value=\"delete\"></form>");
             }
+                out.print("<TD><form  name=\"makeAppointments\" action=\"/Kotza_Project_Web_war/MakeAppointments\" method=\"post\">" +
+                        "<input type=\"hidden\" name=\"username\" value=\""+patient_username+"\">" +
+                        "<input type=\"hidden\" name=\"surname\" value=\""+patient_surname+"\">" +
+                        "<input type=\"hidden\" name=\"name\" value=\""+patient_name+"\">" +
+                        "<input type=\"hidden\" name=\"appointmentID\" value=\"" +rs.getInt(1) + "\">" +
+                        "<input type=\"submit\" id = \"makeAppointmentButton\" value=\"make appointment\"></form>");
+
             out.println();
         }
-        out.println();
+        }
+        out.println("</TABLE>");
         conn.close();
     }
 }
