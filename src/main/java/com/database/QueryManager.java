@@ -1,9 +1,7 @@
 package com.database;
 
 import com.database.queries.Queries;
-import com.web.servlets.session.DeleteAppointments;
 
-import java.math.BigInteger;
 import java.sql.*;
 import java.sql.Date;
 import java.text.MessageFormat;
@@ -65,7 +63,7 @@ public class QueryManager {
      * @return Το συνολο τον εποτελεσματων απο την βαση.
      * @throws SQLException SQL.
      */
-    private static ResultSet queryExecutor(String query,
+    private static Object queryExecutor(String query,
                                            Connection conn,
                                            boolean isWrite,
                                            Object... parameters) throws SQLException {
@@ -76,15 +74,23 @@ public class QueryManager {
         // Οριζουμε τι θα πρεπει να μπει στα κοματια του ερωτηματος που εχουν το ερωτηματικο "?".
         for (Object input : userInput) {
             index = userInput.indexOf(input) + 1; // Κανουμε το +1 γιατι η λιστα ξεκιναει απο 0 αλλα τα ερωτηματικα απο 1.
-            if (input instanceof String) preparedStatement.setString(index, (String) input);
-            else if (input instanceof Integer) preparedStatement.setInt(index, (Integer) input);
+            if (input instanceof String) {
+                preparedStatement.setString(index, (String) input);
+                System.out.println((String)input);
+            }
+            else if (input instanceof Long) preparedStatement.setLong(index, (Long) input);
             else if (input instanceof Date) preparedStatement.setDate(index, (Date) input);
         }
-
-        preparedStatement.executeQuery();
-        // Εδω θα περιεχονται τα αποτελεσματα απο την βαση,
-        return (isWrite)? null : preparedStatement.getResultSet();
+        if(!isWrite) {
+            return preparedStatement.executeQuery();
+        }else{
+           return preparedStatement.executeUpdate();
+        }
+      // Εδω θα περιεχονται τα αποτελεσματα απο την βαση,
+       // return (isWrite)? preparedStatement.executeUpdate() : preparedStatement.getResultSet();
     }
+
+
 
     /**
      * Σε αυτη την μεθοδο τοποθετουμε τα στοιχεια
@@ -131,23 +137,23 @@ public class QueryManager {
 
 
         ResultSet resultsFromDB;
-        resultsFromDB = QueryManager.queryExecutor(MessageFormat.format(query, table), conn,false, selector);
+        resultsFromDB = (ResultSet) QueryManager.queryExecutor(MessageFormat.format(query, table), conn,false, selector);
         assert resultsFromDB != null;
         return QueryManager.retrieveData(resultsFromDB, Arrays.asList(retrieves));
     }
 
-    public static void saveToDatabase(String query,
+    public static int saveToDatabase(String query,
                                       Connection conn,
                                       String table,
                                       Object... fields) throws SQLException {
 
-        QueryManager.queryExecutor(MessageFormat.format(query, table), conn, true, fields);
+        return (int) QueryManager.queryExecutor(MessageFormat.format(query, table), conn, true, fields);
     }
 
     /**
     *Βοηθητική μέθοδος για να πάρουμε την σημερινή ημερομηνία σε μορφή sql
      */
-    public static Date currentDate (LocalDate dateToConvert) {
+    public static Date sqlDateConverter(LocalDate dateToConvert) {
         return java.sql.Date.valueOf(dateToConvert);
     }
 
@@ -177,7 +183,7 @@ public class QueryManager {
     public static ResultSet getPreviousAppointments(String username,  Connection conn,String query) throws SQLException {
         PreparedStatement st = conn.prepareStatement(query);
 
-        st.setDate(1, currentDate(java.time.LocalDate.now()));
+        st.setDate(1, sqlDateConverter(java.time.LocalDate.now()));
         st.setString(2, username);
         return st.executeQuery();
     }
@@ -185,7 +191,7 @@ public class QueryManager {
     public static ResultSet getDoctorAppointments(Long doctor_amka, LocalDate date, Connection conn, String query) throws SQLException {
         PreparedStatement st = conn.prepareStatement(query);
 
-        st.setDate(1, currentDate(date));
+        st.setDate(1, sqlDateConverter(date));
         st.setLong(2, doctor_amka);
         System.out.println("return");
         return st.executeQuery();
@@ -202,8 +208,8 @@ public class QueryManager {
     public static ResultSet getDoctorAppointmentsPerWeek(LocalDate starting_date,long doctor_amka, Connection conn , String query) throws SQLException {
         PreparedStatement st = conn.prepareStatement(query);
 
-        st.setDate(1,currentDate(starting_date));
-        st.setDate(2,currentDate(starting_date.plusDays(6)));
+        st.setDate(1, sqlDateConverter(starting_date));
+        st.setDate(2, sqlDateConverter(starting_date.plusDays(6)));
         st.setLong(3, doctor_amka);
         return st.executeQuery();
     }
@@ -211,7 +217,7 @@ public class QueryManager {
     public static ResultSet getNextAppointmentsAndDelete(String username,  Connection conn,String query) throws SQLException {
         PreparedStatement st = conn.prepareStatement(query);
 
-        st.setDate(1, currentDate(java.time.LocalDate.now()));
+        st.setDate(1, sqlDateConverter(java.time.LocalDate.now()));
         st.setString(2, username);
         return st.executeQuery();
     }
@@ -228,7 +234,7 @@ public class QueryManager {
         PreparedStatement st = conn.prepareStatement(query);
 
         st.setString(1,doctorSpecialty);
-        st.setDate(2, currentDate(java.time.LocalDate.now()));
+        st.setDate(2, sqlDateConverter(java.time.LocalDate.now()));
         return st.executeQuery();
     }
 
@@ -241,5 +247,10 @@ public class QueryManager {
         st.setString(3,patient_name);
         st.setInt(4,appointmentID);
         return st.executeUpdate();
+    }
+
+    public static void availabilityDeclaration(String query) throws SQLException {
+        Statement st = Database.getConnection().createStatement();
+        st.executeUpdate(query);
     }
 }

@@ -1,4 +1,4 @@
-package com.web.servlets.doctorFunctions;
+package com.web.servlets.users.doctor;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,23 +25,8 @@ public class weeklyProgram  extends HttpServlet {
             String weeklyProgram = request.getParameter("program");
             String doctorAMKA = request.getParameter("doctorAMKA");
             int week = Integer.parseInt(weeklyProgram);
-            switch(week) {
-                case 1:
-                    showAppointmentPerWeek(Long.parseLong(doctorAMKA),startOfWeek(0),out);
-                    break;
-                case 2:
-                    showAppointmentPerWeek(Long.parseLong(doctorAMKA),startOfWeek(7),out);
-                    break;
-                case 3:
-                    showAppointmentPerWeek(Long.parseLong(doctorAMKA),startOfWeek(14),out);
-                    break;
-                case 4:
-                    showAppointmentPerWeek(Long.parseLong(doctorAMKA),startOfWeek(21),out);
-                    break;
-                case 5:
-                    showAppointmentPerWeek(Long.parseLong(doctorAMKA),startOfWeek(28),out);
-                    break;
-            }
+            showAppointmentPerWeek(Long.parseLong(doctorAMKA),startOfWeek(7*week),out);
+
 
         }
         catch (IOException | SQLException e) {

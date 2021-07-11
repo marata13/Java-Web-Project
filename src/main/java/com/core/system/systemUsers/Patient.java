@@ -57,36 +57,7 @@ public class Patient extends User {
         return amka;
     }
 
-    /**
-     * Looking for a specific doctor using his name.
-     * @param doctorName The name of the doctor we are looking for.
-     */
-    public void searchAppointmentByDoctorName(String doctorName){
-        if (!isLock) appointment.showAppointmentsByDoctorName(doctorName);
-    }
 
-    /**
-     * Looking for all the doctors with the specialty.
-     * @param doctorSpecialty The doctors specialty.
-     */
-    public void searchAppointmentByDoctorSpecialty(String doctorSpecialty){
-        if (!isLock) appointment.showAppointmentsBySpecialty(doctorSpecialty);
-    }
 
-    /**
-     * display the appointments.
-     */
-    public void showScheduledAppointments(){
-        if (!isLock) appointment.showPatientAppointment(this);
-    }
 
-    /**
-     * display the appointments history.
-     */
-   /*
-   *old unused method that changed
-
-    public void showAppointmentsHistory(){
-        if (!isLock) appointment.showPatientHistory(this);
-    }*/
 }

@@ -97,7 +97,7 @@ public class Doctor extends User {
     public void setDnd(String time) {
         Patient fake = new Patient("","","","","",true,appointment);
         if (schedule.containsKey(time)) {
-            appointment.makeAppointment(this,fake,time);
+            //appointment.makeAppointment(this,fake,time);
         }
         else {
             System.out.println("This time does not exist.");
@@ -141,7 +141,7 @@ public class Doctor extends User {
         if (schedule.get(time) == null) return;
 
         Patient tmpPatient = schedule.get(time);
-        appointment.removeAppointment(this, tmpPatient, time);
+       // appointment.removeAppointment(this, tmpPatient, time);
     }
 
 

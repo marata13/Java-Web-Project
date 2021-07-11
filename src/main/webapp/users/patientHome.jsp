@@ -58,7 +58,7 @@
                 e.printStackTrace();
             }
         %>
-    </table>
+   </table>
 
     <form action="../LogoutServlet" method="post" onsubmit="return validateLogout()">
         <input type="submit" value="Logout" class="logoutButton" style="position: absolute; right: 1%;">
