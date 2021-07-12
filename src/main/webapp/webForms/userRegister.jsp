@@ -11,12 +11,12 @@
     <title>Register</title>
 </head>
 <body>
-<form action="../RegistrationServlet" method="post">
-    Enter your name: <input type="text" name="name">
-    Enter your surname: <input type="text" name="surname">
-    Enter your AMKA: <input type="number" name="amka">
-    Enter your username: <input type="text" name="username">
-    Enter your password: <input type="password" name="password">
+<form action="../AddPatient" method="post">
+    Enter your name: <input type="text" name="patient_name">
+    Enter your surname: <input type="text" name="patient_surname">
+    Enter your AMKA: <input type="number" name="patient_amka">
+    Enter your username: <input type="text" name="patient_username">
+    Enter your password: <input type="password" name="patient_password">
     Confirm your password: <input type="password" name="confirm_password">
     <input type="submit">
 </form>

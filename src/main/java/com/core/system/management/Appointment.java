@@ -147,10 +147,19 @@ public class Appointment {
         conn.close();
     }
 
-
-    public static void showNextAppointmentsAndDelete(String username, JspWriter out) throws SQLException, IOException {
+    public static void showNextAppointmentsAndDeleteForDoctor(Long amka, JspWriter out) throws SQLException, IOException {
         Connection conn = Database.getConnection();
-        ResultSet rs= getNextAppointmentsAndDelete(username,conn, Queries.NEXT_APPOINTMENTS.query);
+        ResultSet rs= getNextAppointmentsAndDeleteForDoctor(amka,conn, Queries.NEXT_APPOINTMENTS_FOR_DOCTOR.query);
+        generateDeleteTable(out, conn, rs);
+    }
+
+    public static void showNextAppointmentsAndDeleteForPatient(String username, JspWriter out) throws SQLException, IOException {
+        Connection conn = Database.getConnection();
+        ResultSet rs= getNextAppointmentsAndDeleteForPatient(username,conn, Queries.NEXT_APPOINTMENTS_FOR_PATIENT.query);
+        generateDeleteTable(out, conn, rs);
+    }
+
+    private static void generateDeleteTable(JspWriter out, Connection conn, ResultSet rs) throws SQLException, IOException {
         if(rs.next()==false){
 
             out.print("<h1>No available appointments have been found<h1>");
@@ -168,7 +177,7 @@ public class Appointment {
             for (int i = 2; i <= columnCount; i++) {
                 out.print("<TD>" + rs.getString(i));
             }
-            if (rs.getDate(2).compareTo(sqlDateConverter(java.time.LocalDate.now().plusDays(3))) >= 0) {
+            if (rs.getDate(2).compareTo(sqlDateConverter(LocalDate.now().plusDays(3))) >= 0) {
 
                 out.print("<TD><form  name=\"DeleteAppointments\" action=\"/Kotza_Project_Web_war/DeleteAppointments\" method=\"post\">" +
                         "<input type=\"hidden\" name=\"appointmentID\" value=\"" + rs.getInt(1) + "\">" +

@@ -62,5 +62,9 @@ THIS IS HOME
         <input type="submit" value="Submit">
     </form>
     </div>
+
+<br><form action="../LogoutServlet" method="post" onsubmit="return validateLogout()">
+    <input type="submit" value="Logout" class="logoutButton" style="position: absolute; right: 1%;">
+</form>
 </body>
 </html>

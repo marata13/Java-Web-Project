@@ -18,7 +18,9 @@ public enum Queries {
 
     DOCTOR_APPOINTMENT_PER_WEEK(" select date,time,patient_name,patient_surname from appointment where date>=? and date<=? and doctor_amka=? and patient_username is not null order by (date,time)"),
 
-    NEXT_APPOINTMENTS("select appointment_id,date,time,doctor_name,doctor_surname,doctor_specialty from appointment where date>= ? and patient_username= ? order by date"),
+    NEXT_APPOINTMENTS_FOR_PATIENT("select appointment_id,date,time,doctor_name,doctor_surname,doctor_specialty from appointment where date>= ? and patient_username= ? order by date"),
+
+    NEXT_APPOINTMENTS_FOR_DOCTOR("select appointment_id,date,time,patient_name,patient_surname from appointment where date>= ? and doctor_amka= ? and patient_username is not null order by (date,time)"),
 
     DELETE_APPOINTMENTS("UPDATE appointment SET patient_username = null, patient_surname = null, patient_name = null WHERE appointment_id = ?"),
 

@@ -4,7 +4,8 @@
 <%@ page import="static com.core.system.management.Appointment.showAppointmentPerWeek" %>
 <%@ page import="static com.database.QueryManager.*" %>
 <%@ page import="com.database.queries.Queries" %>
-<%@ page import="com.database.Database" %><%--
+<%@ page import="com.database.Database" %>
+<%@ page import="com.core.system.management.Appointment" %><%--
   Created by IntelliJ IDEA.
   User: mirto
   Date: 6/25/2021
@@ -88,7 +89,22 @@ THIS IS HOME
     <br>Enter the name of the patient: <input type="text" name="patient_name">
     <br>Enter the surname of the patient: <input type="text" name="patient_surname">
     <br><input type="submit" value="Submit">
+    </form><br><br>
+
+    Here you can see your upcoming appointments :<br>
+    <table class="appointments" border="1">
+            <%
+            try {
+                Appointment.showNextAppointmentsAndDeleteForDoctor(Long.valueOf(doctorAMKA),out);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        %>
+    </table><br>
+    <form action="../LogoutServlet" method="post" onsubmit="return validateLogout()">
+        <input type="submit" value="Logout" class="logoutButton" style="position: absolute; right: 1%;">
     </form>
+
 
 
 

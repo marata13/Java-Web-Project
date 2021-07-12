@@ -5,7 +5,7 @@
 <html>
 <head>
     <title>Patient Home</title>
-    <link rel="stylesheet" href="../css/patient/patient.css">
+    <!--<link rel="stylesheet" href="../css/patient/patient.css">-->
     <script type="text/javascript" src="../js/userLogin.js"></script>
 </head>
 <body>
@@ -50,7 +50,7 @@
         </tr>
     </table>
 
-    <table class="appointments">
+    <table class="appointments" border="1">
         <%
             try {
                 Appointment.showPreviousAppointments(username, out);
@@ -58,7 +58,18 @@
                 e.printStackTrace();
             }
         %>
-   </table>
+   </table><br><Br>
+
+    Here you can see your upcoming appointments :<br>
+    <table class="appointments">
+        <%
+            try {
+                Appointment.showNextAppointmentsAndDeleteForPatient(username,out);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        %>
+    </table><br>
 
     <form action="../LogoutServlet" method="post" onsubmit="return validateLogout()">
         <input type="submit" value="Logout" class="logoutButton" style="position: absolute; right: 1%;">

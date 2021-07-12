@@ -21,7 +21,7 @@ public class DeleteAppointments extends HttpServlet {
         }
         PrintWriter out=response.getWriter();
         out.println("<h1>Your appointment has been deleted</h1>" +
-                "press here to go back <a href=\"/Kotza_Project_Web_war/users/patientHome.jsp\"><button type=\"button\">Click Me!</button></a>");
+                "press here to go back <a href=\"/Kotza_Project_Web_war/index.jsp\"><button type=\"button\">Click Me!</button></a>");
     }
 
 }

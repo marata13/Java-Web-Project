@@ -76,7 +76,7 @@ public class QueryManager {
             index = userInput.indexOf(input) + 1; // Κανουμε το +1 γιατι η λιστα ξεκιναει απο 0 αλλα τα ερωτηματικα απο 1.
             if (input instanceof String) {
                 preparedStatement.setString(index, (String) input);
-                System.out.println((String)input);
+
             }
             else if (input instanceof Long) preparedStatement.setLong(index, (Long) input);
             else if (input instanceof Date) preparedStatement.setDate(index, (Date) input);
@@ -193,7 +193,6 @@ public class QueryManager {
 
         st.setDate(1, sqlDateConverter(date));
         st.setLong(2, doctor_amka);
-        System.out.println("return");
         return st.executeQuery();
     }
 
@@ -214,11 +213,19 @@ public class QueryManager {
         return st.executeQuery();
     }
 
-    public static ResultSet getNextAppointmentsAndDelete(String username,  Connection conn,String query) throws SQLException {
+    public static ResultSet getNextAppointmentsAndDeleteForPatient(String username,  Connection conn,String query) throws SQLException {
         PreparedStatement st = conn.prepareStatement(query);
 
         st.setDate(1, sqlDateConverter(java.time.LocalDate.now()));
         st.setString(2, username);
+        return st.executeQuery();
+    }
+
+    public static ResultSet getNextAppointmentsAndDeleteForDoctor(Long amka,  Connection conn,String query) throws SQLException {
+        PreparedStatement st = conn.prepareStatement(query);
+
+        st.setDate(1, sqlDateConverter(java.time.LocalDate.now()));
+        st.setLong(2, amka);
         return st.executeQuery();
     }
 

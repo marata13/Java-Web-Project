@@ -39,7 +39,7 @@ public class AddPatient extends HttpServlet {
 
             out.println("<html><head><title>Add Patient</title></head>" +
                     "<body><div style=\"text-align: center;\"><h1>You just added Patient "+request.getParameter("patient_surname")+" to the database" +
-                    "</h1><br><a href=\"/Kotza_Project_Web_war/users/adminHome.jsp\">Click here to go back </a></div>" +
+                    "</h1><br><a href=\"/Kotza_Project_Web_war/index.jsp\">Click here to go back </a></div>" +
                     "</body></html>");
 
         } catch (SQLException | NoSuchAlgorithmException e) {
