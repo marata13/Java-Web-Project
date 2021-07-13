@@ -53,7 +53,7 @@ THIS IS HOME
     <br><br>
 
     <h3>Enter a new patient:</h3><br>
-    <form action="../AddPatient" method="post">
+    <form action="../AddPatient" method="post" onsubmit="return validateRegister()">
         Enter the amka of the patient:<input type="text" name="patient_amka">
         <br>Enter the username of the patient: <input type="text" name="patient_username">
         <br>Enter the password of the patient: <input type="password" name="patient_password">
