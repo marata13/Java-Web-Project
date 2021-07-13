@@ -51,7 +51,7 @@ THIS IS HOME
     <% try {
         for(int i=0;i<=4;i++) {
 
-            if (!getDoctorAppointmentsPerWeek(startOfWeek(7 * i), Long.parseLong(doctorAMKA), Database.getConnection(), Queries.DOCTOR_APPOINTMENT_PER_WEEK.query).isBeforeFirst()) {
+            if (!getDoctorAppointmentsPerWeek(startOfWeek(7 * i), Long.parseLong(doctorAMKA), Database.getConnection(), Queries.CHECK_DOCTOR_AVAILABILITY.query).isBeforeFirst()) {
                 out.println("You have to declare your availability for the week :"+startOfWeek(7*i).getDayOfMonth()+"-"
                 +endOfWeek(7*i)+"<form action=\"/Kotza_Project_Web_war/declareAvailability\" method =\"post\">" +
                         "<input type=\"hidden\" name=\"amka\" value=\""+doctorAMKA+"\">" +
@@ -83,10 +83,11 @@ THIS IS HOME
         <input type="submit" value="Submit">
     </form>
 <br><br>
-    <form action="../DoctorServlet" method="post">
+    <form action="/Kotza_Project_Web_war/specificPatient" method="get">
     <br><br><br>Find a scheduled appointment with a specific patient!
     <br>Enter the name of the patient: <input type="text" name="patient_name">
     <br>Enter the surname of the patient: <input type="text" name="patient_surname">
+        <input type="hidden" name="doctorAMKA" value="<%=doctorAMKA%>">
     <br><input type="submit" value="Submit">
     </form><br><br>
 

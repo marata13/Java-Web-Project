@@ -81,14 +81,14 @@ public class Appointment {
      * @param name The patient's name.
      * @param surname The patient's surname.
      */
-    public static void showAppointmentDoctorSide(String doctorAMKA, String name, String surname, JspWriter out) throws SQLException, IOException {
+    public static void showForSpecificPatient(String doctorAMKA, String name, String surname, PrintWriter out) throws SQLException, IOException {
         Long doctor_amka = Long.parseLong(doctorAMKA);
         Connection conn = Database.getConnection();
         ResultSet rs= getSpecificDoctorAppointments(doctor_amka, name, surname, conn, Queries.SPECIFIC_DOCTOR_APPOINTMENTS.query);
 
         ResultSetMetaData rsMeta = rs.getMetaData();
         int columnCount = rsMeta.getColumnCount();
-        out.println("<TABLE>");
+        out.println("<TABLE border=\"1\">");
         generateTable(out, rs, rsMeta, columnCount);
         out.println("</TABLE>");
         conn.close();
