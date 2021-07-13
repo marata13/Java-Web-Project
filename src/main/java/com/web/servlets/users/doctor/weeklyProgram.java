@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import static com.core.system.management.Appointment.showAppointmentPerWeek;
-import static com.core.system.management.Appointment.showAppointmentsPerDay;
 import static com.database.QueryManager.startOfWeek;
 
 @WebServlet("/weeklyProgram")

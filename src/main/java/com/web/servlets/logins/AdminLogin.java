@@ -43,7 +43,7 @@ public class AdminLogin extends HttpServlet {
         }
         catch(LoginFailure | IOException | SQLException | NoSuchAlgorithmException e){
             // do something.
-            this.getServletContext().getRequestDispatcher("/users/error.jsp").forward(request, response);
+            this.getServletContext().getRequestDispatcher("/errors/error.jsp").forward(request, response);
         }
     }
 }

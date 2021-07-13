@@ -20,11 +20,6 @@ public class AddPatient extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PrintWriter out = response.getWriter();
 
-        /*out.println(String.format("<html><body> %s %s %s %s %s </body></html>",request.getParameter("patient_amka"),
-                request.getParameter("patient_username"),request.getParameter("patient_password"),
-                request.getParameter("patient_name"),
-                request.getParameter("patient_surname")));*/
-
         try {
             QueryManager.saveToDatabase(
                     Queries.ADD_PATIENT.query,

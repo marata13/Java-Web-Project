@@ -91,25 +91,6 @@ public class Doctor extends User {
         }
     }
 
-    /**
-     * @param time the time that the doctor didn't need to have appointments.
-     */
-    public void setDnd(String time) {
-        Patient fake = new Patient("","","","","",true,appointment);
-        if (schedule.containsKey(time)) {
-            //appointment.makeAppointment(this,fake,time);
-        }
-        else {
-            System.out.println("This time does not exist.");
-        }
-    }
-
-    public void replaceDnd(Patient toReplace,String time) {
-        if (schedule.containsKey(time)) {
-            schedule.put(time,toReplace);
-        }
-    }
-
     public void generateDoctorSchedule() {
         generateSchedule();
         generateTimes();
@@ -135,14 +116,5 @@ public class Doctor extends User {
         }
         times.clear();
     }
-
-
-    public void removeAppointment(String time) {
-        if (schedule.get(time) == null) return;
-
-        Patient tmpPatient = schedule.get(time);
-       // appointment.removeAppointment(this, tmpPatient, time);
-    }
-
 
 }
