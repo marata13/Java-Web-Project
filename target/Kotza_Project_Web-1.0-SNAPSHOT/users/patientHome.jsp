@@ -48,8 +48,10 @@
                 <%=patientAMKA%>
             </td>
         </tr>
-    </table>
+    </table><br>
 
+
+    Here you can see your previous appointments :<br>
     <table class="appointments" border="1">
         <%
             try {
@@ -61,7 +63,7 @@
    </table><br><Br>
 
     Here you can see your upcoming appointments :<br>
-    <table class="appointments">
+    <table class="appointments" border="1">
         <%
             try {
                 Appointment.showNextAppointmentsAndDeleteForPatient(username,out);
@@ -79,7 +81,7 @@
     <table class="form">
     <div style="text-align: center;">
     <FORM action="/Kotza_Project_Web_war/availableAppointmentServlet" method="post">
-        <label for="availableAppointments"><p style="color:black">Choose a doctor specialty to find available appointments:</p></label>
+        <label for="availableAppointments"><p style="color:#000000">Choose a doctor specialty to find available appointments:</p></label>
         <select name="doctorSpecialty" id="availableAppointments">
             <option value="pathologist">pathologist</option>
             <option value="ophthalmologist">ophthalmologist</option>

@@ -13,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -37,25 +36,6 @@ public class Appointment {
     public Appointment() {
         this.appointments = new HashSet<>();
         this.doctors = new HashSet<>();
-    }
-
-
-    /**
-     * In this method we display all appointments of a specific doctor for a specific day
-     * @param doctorAMKA The AMKA of the doctor we are interested in learning his program.
-     * @param date The date on which the doctor wants to see his program.
-     */
-    public static void showAppointmentsPerDay(String doctorAMKA,  String date, JspWriter out) throws SQLException, IOException {
-        Long doctor_amka = Long.parseLong(doctorAMKA);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate date1 = LocalDate.parse(date, formatter);
-        Connection conn = Database.getConnection();
-        ResultSet rs= getDoctorAppointments(doctor_amka, date1, conn, Queries.DOCTOR_APPOINTMENTS.query);
-
-        ResultSetMetaData rsMeta = rs.getMetaData();
-        int columnCount = rsMeta.getColumnCount();
-        generateTable(out, rs, rsMeta, columnCount);
-        conn.close();
     }
 
     /**Display program for a sequence of days starting from the specified date
@@ -95,36 +75,46 @@ public class Appointment {
     }
 
     private static void generateTable(JspWriter out, ResultSet rs, ResultSetMetaData rsMeta, int columnCount) throws IOException, SQLException {
-        out.println("<TR>");
-        for (int i = 1; i <= columnCount; i++) {
-            out.print("<TH>" + rsMeta.getColumnName(i));
-        }
-        out.println();
+        if(!rs.isBeforeFirst()){
 
-
-        while (rs.next()) {
+            out.print("<h1>No available appointments have been found<h1>");
+        }else {
             out.println("<TR>");
             for (int i = 1; i <= columnCount; i++) {
-                out.print("<TD>" + rs.getString(i));
+                out.print("<TH>" + rsMeta.getColumnName(i));
             }
             out.println();
+
+
+            while (rs.next()) {
+                out.println("<TR>");
+                for (int i = 1; i <= columnCount; i++) {
+                    out.print("<TD>" + rs.getString(i));
+                }
+                out.println();
+            }
         }
     }
 
     private static void generateTable(PrintWriter out, ResultSet rs, ResultSetMetaData rsMeta, int columnCount) throws IOException, SQLException {
-        out.println("<TR>");
-        for (int i = 1; i <= columnCount; i++) {
-            out.print("<TH>" + rsMeta.getColumnName(i));
-        }
-        out.println();
+        if(!rs.isBeforeFirst()){
 
-
-        while (rs.next()) {
+            out.print("<h1>No available appointments have been found<h1>");
+        }else {
             out.println("<TR>");
             for (int i = 1; i <= columnCount; i++) {
-                out.print("<TD>" + rs.getString(i));
+                out.print("<TH>" + rsMeta.getColumnName(i));
             }
             out.println();
+
+
+            while (rs.next()) {
+                out.println("<TR>");
+                for (int i = 1; i <= columnCount; i++) {
+                    out.print("<TD>" + rs.getString(i));
+                }
+                out.println();
+            }
         }
     }
 
@@ -160,7 +150,7 @@ public class Appointment {
     }
 
     private static void generateDeleteTable(JspWriter out, Connection conn, ResultSet rs) throws SQLException, IOException {
-        if(rs.next()==false){
+        if(!rs.isBeforeFirst()){
 
             out.print("<h1>No available appointments have been found<h1>");
         }else{
@@ -195,7 +185,7 @@ public class Appointment {
             ,String patient_name, String doctorSpecialty) throws SQLException {
         Connection conn = Database.getConnection();
         ResultSet rs= getAvailableAppointments(conn,doctorSpecialty, Queries.AVAILABLE_APPOINTMENTS.query);
-        if(rs.next()==false){
+        if(!rs.isBeforeFirst()){
 
               out.print("<h1>No available appointments have been found<h1>");
              }else{
